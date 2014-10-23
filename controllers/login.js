@@ -1,4 +1,7 @@
-var Account = require('../modules/account');
+var Sequelize = require('sequelize');
+var sequelize = require('../modules/MysqlConnection');
+var AccountFactory = require('../modules/Account');
+var Account = AccountFactory(sequelize, Sequelize);
 var crypto = require('crypto');
 
 module.exports = function(req, res, next) {
@@ -6,16 +9,17 @@ module.exports = function(req, res, next) {
 	var md5 = crypto.createHash('md5');
 	var password = md5.update(input.password).digest('hex').toUpperCase();
 
-	var account = new Account({
+	var param = {
 		name: input.username,
 		pass: password
-	});
-
-	account.validate(function(err, acc) {
+	};
+	Account.find({
+		where: param
+	}).complete(function(err, account) {
 		if(err) {
 			err.status = 500;
 			next(err, req, res);
-		} else if(!acc) {
+		} else if(!account) {
 			var err = {
 				message: "Account not exist",
 				status: 200
@@ -23,7 +27,7 @@ module.exports = function(req, res, next) {
 			err.redirect = '/login';
 			next(err, req, res);
 		} else {
-			req.session.user = acc;
+			req.session.user = account;
 			res.redirect('/game');
 		}
 	});
