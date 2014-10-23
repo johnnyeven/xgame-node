@@ -1,0 +1,15 @@
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Free Dogecoin</a>
+          <div class="nav-collapse">
+          <% if(locals.user) { %><p class="navbar-text pull-right"><%= locals.user.name %></p><% } %>
+            <ul class="nav"> 
+              <li class="active"><a href="/">首页</a></li> 
+              <li><a href="/login">登入</a></li> 
+              <li><a href="/register"> 注册</a></li> 
+            </ul> 
+          </div> 
+        </div> 
+      </div> 
+    </div> 
