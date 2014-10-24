@@ -1,0 +1,89 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Xgame</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
+      .species [class *= "span"] {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        height:400px;
+        border:#EEE 1px solid;
+        padding: 20px;
+        cursor:pointer;
+      }
+
+      .species div:hover, .species div.selected {
+        background:#EEE;
+        border-color:#CCC;
+      }
+    </style>
+    <link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="stylesheets/public.css" rel="stylesheet">
+  </head>
+  <body>
+    <%- include user_nav %>
+ 
+    <div class="container">
+      <h1>创建角色<small id="subtitle"> / 选择种族</small></h1>
+      <hr />
+      <ul class="breadcrumb" id="breadcrumb">
+        <li class="active">选择种族<span class="divider">/</span></li>
+        <li class="active">角色名<span class="divider">/</span></li>
+        <li class="active">配置属性<span class="divider">/</span></li>
+        <li class="active">完成</li>
+      </ul>
+      <div class="row-fluid" id="content" style="overflow:hidden;">
+        <div id="slider" style="width:5000px;">
+          <div class="species" style="width:1170px;" id="species">
+            <div class="span4" data="1">
+              <h3 class="text-center">艾尔</h3>
+              <p class="lead">艾尔是目前为止，地域面积相对最大的国家。</p>
+              <p>早期的艾尔人在商业、工业以及军事方面无人能及，这归功于艾尔内部近乎严酷的等级制度以及奴隶制度，为这个国家带来最高效的收益。</p>
+              <ul>
+                <li>擅长激光炮技术</li>
+                <li>战舰靠装甲进行防御</li>
+                <li>技能训练对感知及魅力要求较高</li>
+              </ul>
+            </div>
+            <div class="span4" data="2">
+              <h3 class="text-center">加特里</h3>
+              <p class="lead">加特里由艾尔的反对派政变所形成，目前是艾尔最大的威胁。</p>
+              <p>当艾尔的奴隶们被压榨的无法忍受时，一场政变在所难免。艾尔人的傲慢致使他们的国土遭到分割，连克隆舱技术也被加特里人掌握。</p>
+              <ul>
+                <li>擅长导弹技术</li>
+                <li>战舰靠护盾进行防御</li>
+                <li>技能训练对毅力及感知要求较高</li>
+              </ul>
+            </div>
+            <div class="span4" data="3">
+              <h3 class="text-center">迪里米克</h3>
+              <p class="lead">迪里米克是少数当年“迷失时代”中未被艾尔吞并的国家。</p>
+              <p>随着当年艾尔的逐渐壮大，像迪里米克这样的小国家早已被高高在上的艾尔人所忽略，正是因为这样，才能有现在的迪里米克合众国的诞生。</p>
+              <ul>
+                <li>擅长电磁炮技术</li>
+                <li>战舰靠护盾进行防御</li>
+                <li>技能训练对魅力及记忆要求较高</li>
+              </ul>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <ul class="pager">
+        <li class="previous" id="prev"><a href="#">&larr; </a></li>
+        <li class="next" id="next"><a href="#"> &rarr;</a></li>
+      </ul>
+    <%- include std_footer %>
+    </div>
+  </body>
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
+  <script src="/javascripts/createrole.js"></script>
+</html>

@@ -28,7 +28,7 @@ module.exports = function(req, res, next) {
 			next(err, req, res);
 		} else {
 			req.session.user = account;
-			res.redirect('/game/overview');
+			res.redirect('/game');
 		}
 	});
 };

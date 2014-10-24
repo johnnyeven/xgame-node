@@ -42,7 +42,7 @@ module.exports = function(req, res, next) {
 				return;
 			}
 			req.session.user = newAccount;
-			res.redirect('/game');
+			res.redirect('/role');
 		});
 	});
 };

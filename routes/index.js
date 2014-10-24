@@ -11,7 +11,9 @@ router.get('/login', function(req, res) {
 router.get('/register', function(req, res) {
 	res.render('register', {});
 });
+router.get('/role', require('../controllers/role'));
 router.post('/login', require('../controllers/login'));
 router.post('/register', require('../controllers/register'));
+router.post('/role', require('../controllers/create_role'));
 
 module.exports = router;

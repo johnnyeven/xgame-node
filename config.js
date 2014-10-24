@@ -9,6 +9,6 @@ module.exports = {
 	},
 	game_db: {
 		ip: 'localhost',
-		database: 'platform_node'
+		database: 'profzone_xgame_gamedb'
 	}
 };
