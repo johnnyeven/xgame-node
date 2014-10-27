@@ -19,6 +19,15 @@
         cursor:pointer;
       }
 
+      .complete div [class *= "span"] {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        height:400px;
+        border:#EEE 1px solid;
+        padding: 20px;
+      }
+
       .species div:hover {
         background:#EEE;
         border-color:#CCC;
@@ -31,7 +40,7 @@
 
       .form-attributes {
         max-width: 600px;
-        margin: 100px auto;
+        margin: 50px auto;
       }
     </style>
     <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
@@ -114,6 +123,26 @@
                 <h1 id="remain_points">10</h1>
               </div>
               <div class="clear"></div>
+            </div>
+          </div>
+
+          <div class="complete span12" style="width:1170px;margin-left:0;" id="complete">
+            <div class="form-attributes">
+              <div class="span6" id="completeSpecies"></div>
+              <div class="span6">
+                <p class="lead">角色名称</p>
+                <p id="completeNickname"></p>
+                <p class="lead">属性</p>
+                <p>感知<span id="completeAttribute1" class="label label-success" style="margin-left:5px;"></span></p>
+                <p>毅力<span id="completeAttribute2" class="label label-success" style="margin-left:5px;"></span></p>
+                <p>智力<span id="completeAttribute3" class="label label-success" style="margin-left:5px;"></span></p>
+                <p>魅力<span id="completeAttribute4" class="label label-success" style="margin-left:5px;"></span></p>
+                <p>记忆<span id="completeAttribute5" class="label label-success" style="margin-left:5px;"></span></p>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div style="width:300px;margin:0 auto;">
+              <a href="#" class="btn btn-large btn-block btn-primary">开始征战宇宙 &gt;&gt;</a>
             </div>
           </div>
         </div>

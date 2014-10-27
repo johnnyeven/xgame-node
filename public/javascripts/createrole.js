@@ -3,11 +3,7 @@ $(function() {
 	var species = null;
 	var nickname = null;
 	var attributes = 10;
-	var attribute1 = 0;
-	var attribute2 = 0;
-	var attribute3 = 0;
-	var attribute4 = 0;
-	var attribute5 = 0;
+	var attribute = [0, 0, 0, 0, 0];
 	var stageName = ['选择种族', '角色名', '配置属性', '完成'];
 
 	var buildBread = function() {
@@ -71,6 +67,7 @@ $(function() {
 	$("#next").click(function() {
 		if(currentStage == 0) {
 			if(species) {
+				$("#message").remove();
 				currentStage++;
 				slide();
 			} else {
@@ -78,11 +75,30 @@ $(function() {
 			}
 		} else if(currentStage == 1) {
 			if($("#iptName").val()) {
+				$("#message").remove();
 				nickname = $("#iptName").val();
 				currentStage++;
 				slide();
 			} else {
 				showError("请输入角色名称");
+			}
+		} else if(currentStage == 2) {
+			var a = 0;
+			for(var i in attribute) {
+				a += attribute[i];
+			}
+			if(a < attributes) {
+				showError('您还有为分配的点数');
+			} else {
+				$("#completeSpecies").html($("#species > div").eq(species - 1).html());
+				$("#completeNickname").text(nickname);
+				for(var i in attribute) {
+					$("#completeAttribute" + (parseInt(i) + 1)).text("+" + attribute[i]);
+				}
+
+				$("#message").remove();
+				currentStage++;
+				slide();
 			}
 		}
 
@@ -111,7 +127,6 @@ $(function() {
 		min: 0,
 		max: 5,
 		slide: function(evt, ui) {
-			$(this).prev().find("span").text("+" + ui.value);
 			var amount = 0;
 			for(var i = 1; i < 6; i++) {
 				if($("#attribute" + i).attr("id") == $(this).attr("id")) {
@@ -120,13 +135,21 @@ $(function() {
 					amount += $("#attribute" + i).slider("value");
 				}
 			}
-			$("#remain_points").text(attributes - amount);
+			var remain = attributes - amount;
+			if(remain >= 0) {
+				$("#remain_points").text(remain);
+				$(this).prev().find("span").text("+" + ui.value);
+				var index = parseInt($(this).attr('id').substr(-1, 1)) - 1;
+				attribute[index] = ui.value;
+			} else {
+				return false;
+			}
 		}
 	});
 });
 
 function showError(message) {
 	var html = '<div id="message" class="alert alert-error" style="display:none;"><button type="button" class="close" data-dismiss="alert">&times;</button>' + message + '</div>';
-	$("#content").prepend(html);
+	$("#content").before(html);
 	$("#message").slideDown();
 }
