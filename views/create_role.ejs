@@ -28,9 +28,15 @@
         background: #DDD;
         border-color: #BBB;
       }
+
+      .form-attributes {
+        max-width: 600px;
+        margin: 100px auto;
+      }
     </style>
-    <link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
-    <link href="stylesheets/public.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/public.css" rel="stylesheet">
+    <link href="/stylesheets/smoothness/jquery-ui.min.css" rel="stylesheet">
   </head>
   <body>
     <%- include user_nav %>
@@ -78,6 +84,38 @@
             <p>请为你在这星域中留下一个响亮的名字</p>
             <input id="iptName" type="text" class="input-xlarge text-center" placeholder="角色名称">
           </div>
+
+          <div class="attribute span12" style="width:1170px;margin-left:0;" id="attribute">
+            <div class="form-attributes">
+              <div class="span6">
+                <div class="control-group">
+                  <label class="control-label">感知<span class="label label-info">+0</span></label>
+                  <div id="attribute1"></div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">毅力<span class="label label-info">+0</span></label>
+                  <div id="attribute2"></div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">智力<span class="label label-info">+0</span></label>
+                  <div id="attribute3"></div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">魅力<span class="label label-info">+0</span></label>
+                  <div id="attribute4"></div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">记忆<span class="label label-info">+0</span></label>
+                  <div id="attribute5"></div>
+                </div>
+              </div>
+              <div class="span6 text-center">
+                <p>剩余可分配点数</p>
+                <h1 id="remain_points">10</h1>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
         </div>
       </div>
       <ul class="pager">
@@ -88,6 +126,7 @@
     </div>
   </body>
   <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/jquery-ui.min.js"></script>
   <script src="/javascripts/bootstrap.js"></script>
   <script src="/javascripts/createrole.js"></script>
 </html>

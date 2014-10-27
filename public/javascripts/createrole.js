@@ -2,6 +2,12 @@ $(function() {
 	var currentStage = 0;
 	var species = null;
 	var nickname = null;
+	var attributes = 10;
+	var attribute1 = 0;
+	var attribute2 = 0;
+	var attribute3 = 0;
+	var attribute4 = 0;
+	var attribute5 = 0;
 	var stageName = ['选择种族', '角色名', '配置属性', '完成'];
 
 	var buildBread = function() {
@@ -97,6 +103,25 @@ $(function() {
 
 		}
 		return false;
+	});
+
+	$("#attribute1, #attribute2, #attribute3, #attribute4, #attribute5").slider({
+		range: 'min',
+		value: 0,
+		min: 0,
+		max: 5,
+		slide: function(evt, ui) {
+			$(this).prev().find("span").text("+" + ui.value);
+			var amount = 0;
+			for(var i = 1; i < 6; i++) {
+				if($("#attribute" + i).attr("id") == $(this).attr("id")) {
+					amount += ui.value;
+				} else {
+					amount += $("#attribute" + i).slider("value");
+				}
+			}
+			$("#remain_points").text(attributes - amount);
+		}
 	});
 });
 
