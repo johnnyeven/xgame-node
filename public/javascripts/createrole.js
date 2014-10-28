@@ -146,6 +146,52 @@ $(function() {
 			}
 		}
 	});
+
+	var onCreate = function(data) {
+		if(data) {
+			if(data.code == 200) {
+				location.href = "/game/overview";
+			} else {
+				showError(data.message);
+				$("#progress").hide();
+				$("#start").show();
+			}
+		}
+	};
+
+	$("#start").click(function() {
+		if(!species) {
+			showError('请选择一个种族');
+			return false;
+		}
+		if(!nickname) {
+			showError('请输入角色名称');
+			return false;
+		}
+		var a = 0;
+		for(var i in attribute) {
+			a += attribute[i];
+		}
+		if(a < attributes) {
+			showError('您还有为分配的点数');
+			return false;
+		}
+
+		var param = {
+			'species': species,
+			'nickname': nickname,
+			'attribute1': attribute[0],
+			'attribute2': attribute[1],
+			'attribute3': attribute[2],
+			'attribute4': attribute[3],
+			'attribute5': attribute[4],
+		}
+		$.post('/role', param, onCreate);
+		$(this).hide();
+		$("#progress").show();
+
+		return false;
+	});
 });
 
 function showError(message) {

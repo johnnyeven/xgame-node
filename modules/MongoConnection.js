@@ -8,6 +8,5 @@ module.exports = function(callback) {
 	});
 	db.once('open', function() {
 		callback(db);
-		db.close();
 	});
 };
