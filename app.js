@@ -10,6 +10,9 @@ var config = require('./config');
 
 var app = express();
 
+// enviroment
+// app.set('env', 'production');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
