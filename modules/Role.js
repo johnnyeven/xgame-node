@@ -9,7 +9,17 @@ var RoleSchema = mongoose.Schema({
 	role_enchantment: Number,		//魅力
 	role_memory: Number,			//记忆
 	role_regtime: Date,
-	role_astrological: Number		//星座
+	role_astrological: Number,		//星座
+	resources: {
+		gold: Number,				//金币，
+		antimatter: Number,			//反物质
+		titanium: Number,			//钛合金
+		crystal: Number,			//晶体
+		hydrogen: Number,			//氚氢气
+		water: Number,				//水
+		organics: Number			//有机物
+	},
+	current_place: String			//目前所在地
 });
 var Role = mongoose.model('Role', RoleSchema, 'roles');
 

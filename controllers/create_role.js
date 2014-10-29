@@ -23,7 +23,16 @@ module.exports = function(req, res, next) {
 					role_enchantment: attribute4,
 					role_memory: attribute5,
 					role_regtime: new Date(),
-					role_astrological: 1
+					role_astrological: 1,
+					resources: {
+						gold: 0,
+						antimatter: 0,
+						titanium: 500,
+						crystal: 500,
+						hydrogen: 100,
+						water: 0,
+						organics: 0
+					}
 				});
 				role.save(function(err) {
 					if(err) {
