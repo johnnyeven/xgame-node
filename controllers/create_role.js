@@ -32,7 +32,8 @@ module.exports = function(req, res, next) {
 						hydrogen: 100,
 						water: 0,
 						organics: 0
-					}
+					},
+					current_place: 'station_1001'
 				});
 				role.save(function(err) {
 					if(err) {
