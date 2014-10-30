@@ -144,18 +144,20 @@
           </div>
           <div class="thumbnail planets" style="background:url(/images/planet_001.png) no-repeat;">
             <div class="planets-name"></div>
-            <div class="planets-name-content">概况 - 艾尔兵工厂 II</div>
+            <div class="planets-name-content">概况 - <%= place.name %></div>
             <div class="planets-info"></div>
             <div class="planets-info-content">
               <table>
+                <% if(place.diameter) { %>
                 <tr>
                   <th>直径</th>
-                  <td>12,800公里(1/163)</td>
+                  <td><%= place.diameter %>公里(1/163)</td>
                 </tr>
                 <tr>
                   <th>气温</th>
-                  <td>30°C 至 70°C</td>
+                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.min %>°C</td>
                 </tr>
+                <% } %>
                 <tr>
                   <th>所在位置</th>
                   <td>波菲塔里斯 &gt; 米苏 &gt; A</td>

@@ -1,12 +1,22 @@
 module.exports = function(req, res, next) {
-	var response = function(type, place) {
+	var response = function(db, type, place) {
+		var ConstPosition = require('../../modules/ConstPosition');
+		ConstPosition.findOne({
+			id: place.position.x,
+			"y.id": place.position.y,
+			"y.z.id": place.position.z
+		}, function(err, doc) {
+			console.log(doc);
+			console.log(err);
+			db.close();
+		});
+
 		var species = ['艾尔', '加特里', '迪里米克'];
 		if(type == 'station') {
 			res.render('game/overview', {
 				species: species[req.session.role.role_species - 1],
 				place: place
 			});
-			console.log(place);
 		}
 	};
 	var mongo_connect = require('../../modules/MongoConnection');
@@ -19,15 +29,13 @@ module.exports = function(req, res, next) {
 				ConstStations.findOne({
 					id: current_place
 				}, function(err, station) {
-					db.close();
-
 					if(err) {
 						err.status = 500;
 						return next(err, req, res);
 					}
 
 					if(station) {
-						response(type, station);
+						response(db, type, station);
 					} else {
 						var err = {
 							status: 200,
