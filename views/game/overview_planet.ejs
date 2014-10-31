@@ -1,0 +1,173 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Xgame</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
+      .content {
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      .planets {
+        height:300px;
+        overflow: hidden;
+        padding:0;
+        position:relative;
+      }
+
+      .planets-info {
+        width:300px;
+        height:100px;
+        position:absolute;
+        bottom:0;
+        right:0;
+        -webkit-border-radius:5px 0 0 0;
+        -moz-border-radius:5px 0 0 0;
+        border-radius:5px 0 0 0;
+        background:#141E28;
+        filter: alpha(opacity=60);
+        -moz-opacity: .6;
+        -khtml-opacity: .6;
+        opacity: .6;
+        z-index: 1;
+      }
+
+      .planets-info-content {
+        width:290px;
+        height:90px;
+        position:absolute;
+        bottom:0;
+        right:0;
+        padding: 5px;
+        z-index: 2;
+      }
+
+      .planets-info-content table {
+        width:100%;
+        font-size: 12px;
+      }
+
+      .planets-info-content table th {
+        width:30%;
+        text-align: left;
+        padding: 4px;
+        color:#6F9FCD;
+      }
+
+      .planets-info-content table td {
+        width:70%;
+        text-align: right;
+        padding: 4px;
+        color:#FFF;
+      }
+
+      .planets-name {
+        width:500px;
+        height:40px;
+        position:absolute;
+        top:5px;
+        right:5px;
+        -webkit-border-radius:5px;
+        -moz-border-radius:5px;
+        border-radius:5px;
+        background:#141E28;
+        filter: alpha(opacity=60);
+        -moz-opacity: .6;
+        -khtml-opacity: .6;
+        opacity: .6;
+        z-index: 3;
+      }
+
+      .planets-name-content {
+        color:#FFF;
+        width:480px;
+        height:30px;
+        line-height: 30px;
+        font-size: 20px;
+        position:absolute;
+        top:5px;
+        right:5px;
+        padding: 5px 10px;
+        z-index: 4;
+      }
+    </style>
+    <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+  <body>
+    <%- include ../user_nav %>
+ 
+    <div id="container" class="container">
+      <div class="row content">
+        <div class="span2">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#">Overview</a></li>
+            <li><a href="#">Planets</a></li>
+            <li><a href="#">Building</a></li>
+            <li><a href="#">Science</a></li>
+            <li><a href="#">Fleets</a></li>
+          </ul>
+        </div>
+        <div class="span10">
+          <div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+              <a class="brand" style="padding-top:25px"><%= locals.role.role_name %><small> (<%= species %>)</small></a>
+              <ul class="nav">
+                <li class="divider-vertical" style="height:72px;"></li>
+                <li><a>
+                  <div><img src="/images/resources_titanium.png" /></div>
+                  <div class="text-center"><strong><%= locals.role.resources.titanium %></strong></div>
+                </a></li>
+                <li><a>
+                  <div><img src="/images/resources_crystal.png" /></div>
+                  <div class="text-center"><strong><%= locals.role.resources.crystal %></strong></div>
+                </a></li>
+                <li><a>
+                  <div><img src="/images/resources_hydrogen.png" /></div>
+                  <div class="text-center"><strong><%= locals.role.resources.hydrogen %></strong></div>
+                </a></li>
+                <li><a>
+                  <div><img src="/images/resources_water.png" /></div>
+                  <div class="text-center"><strong><%= locals.role.resources.water %></strong></div>
+                </a></li>
+                <li><a>
+                  <div><img src="/images/resources_organics.png" /></div>
+                  <div class="text-center"><strong><%= locals.role.resources.organics %></strong></div>
+                </a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="thumbnail planets" style="background:url(/images/planet_001.png) no-repeat;">
+            <div class="planets-name"></div>
+            <div class="planets-name-content">概况 - <%= place.name %></div>
+            <div class="planets-info"></div>
+            <div class="planets-info-content">
+              <table>
+                <tr>
+                  <th>直径</th>
+                  <td><%= place.diameter %>公里(1/163)</td>
+                </tr>
+                <tr>
+                  <th>气温</th>
+                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.min %>°C</td>
+                </tr>
+                <tr>
+                  <th>所在位置</th>
+                  <td>波菲塔里斯 &gt; 米苏 &gt; A</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%- include ../std_footer %>
+    </div>
+  </body>
+  <script src="/javascripts/jquery.min.js"></script> 
+  <script src="/javascripts/bootstrap.js"></script> 
+</html>

@@ -1,23 +1,54 @@
 module.exports = function(req, res, next) {
 	var response = function(db, type, place) {
-		var ConstPosition = require('../../modules/ConstPosition');
-		ConstPosition.findOne({
+		var ConstPosition1 = require('../../modules/ConstPosition1');
+		ConstPosition1.findOne({
 			id: place.position.x,
-			"y.id": place.position.y,
-			"y.z.id": place.position.z
-		}, function(err, doc) {
-			console.log(doc);
-			console.log(err);
-			db.close();
-		});
+		}, function(err, doc1) {
+			if(err) {
+				err.status = 500;
+				return next(err, req, res);
+			}
+			var ConstPosition2 = require('../../modules/ConstPosition2');
+			ConstPosition2.findOne({
+				id: place.position.y,
+			}, function(err, doc2) {
+				if(err) {
+					err.status = 500;
+					return next(err, req, res);
+				}
+				var ConstPosition3 = require('../../modules/ConstPosition3');
+				ConstPosition3.findOne({
+					id: place.position.z,
+				}, function(err, doc3) {
+					if(err) {
+						err.status = 500;
+						return next(err, req, res);
+					}
+					db.close();
 
-		var species = ['艾尔', '加特里', '迪里米克'];
-		if(type == 'station') {
-			res.render('game/overview', {
-				species: species[req.session.role.role_species - 1],
-				place: place
+					var position = {
+						x: doc1.name,
+						y: doc2.name,
+						z: doc3.name,
+						index: place.position.index
+					};
+					var species = ['艾尔', '加特里', '迪里米克'];
+					if(type == 'station') {
+						res.render('game/overview_station', {
+							species: species[req.session.role.role_species - 1],
+							place: place,
+							position: position
+						});
+					} else {
+						res.render('game/overview_planet', {
+							species: species[req.session.role.role_species - 1],
+							place: place,
+							position: position
+						});
+					}
+				});
 			});
-		}
+		});
 	};
 	var mongo_connect = require('../../modules/MongoConnection');
 	mongo_connect(function(db) {
