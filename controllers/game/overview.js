@@ -76,7 +76,25 @@ module.exports = function(req, res, next) {
 					}
 				});
 			} else if(type == 'planet') {
+				var ConstPlanets = require('../../modules/ConstPlanets');
+				ConstPlanets.findOne({
+					id: current_place
+				}, function(err, planet) {
+					if(err) {
+						err.status = 500;
+						return next(err, req, res);
+					}
 
+					if(planet) {
+						response(db, type, planet);
+					} else {
+						var err = {
+							status: 200,
+							message: "Can't find the planet(id = " + current_place + ")"
+						};
+						return next(err, req, res);
+					}
+				});
 			}
 		} else {
 			var err = {

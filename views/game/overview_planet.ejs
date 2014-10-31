@@ -22,7 +22,7 @@
       }
 
       .planets-info {
-        width:300px;
+        width:400px;
         height:100px;
         position:absolute;
         bottom:0;
@@ -39,7 +39,7 @@
       }
 
       .planets-info-content {
-        width:290px;
+        width:390px;
         height:90px;
         position:absolute;
         bottom:0;
@@ -142,7 +142,7 @@
               </ul>
             </div>
           </div>
-          <div class="thumbnail planets" style="background:url(/images/planet_001.png) no-repeat;">
+          <div class="thumbnail planets" style="background:url(/images/<%= locals.role.current_place %>.png) no-repeat;">
             <div class="planets-name"></div>
             <div class="planets-name-content">概况 - <%= place.name %></div>
             <div class="planets-info"></div>
@@ -154,11 +154,11 @@
                 </tr>
                 <tr>
                   <th>气温</th>
-                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.min %>°C</td>
+                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.max %>°C</td>
                 </tr>
                 <tr>
                   <th>所在位置</th>
-                  <td>波菲塔里斯 &gt; 米苏 &gt; A</td>
+                  <td><%= position.x %> &gt; <%= position.y %> &gt; <%= position.z %> &gt; <%= position.index %></td>
                 </tr>
               </table>
             </div>
