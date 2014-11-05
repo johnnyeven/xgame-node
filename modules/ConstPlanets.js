@@ -21,7 +21,13 @@ var ConstPlanetsSchema = mongoose.Schema({
 		hydrogen: Number,
 		water: Number,
 		organics: Number
-	}
+	},
+	owner: String,		//占领者
+	buildings: [{
+		id: String,
+		level: Number,
+		complete_time: Number
+	}]
 
 });
 var ConstPlanets = mongoose.model('ConstPlanets', ConstPlanetsSchema, 'const_planets');

@@ -4,6 +4,7 @@ var router = express.Router();
 router.all('/game/*', checkLogin);
 router.all('/game/*', checkRole);
 router.get('/game/overview', require('../controllers/game/overview'));
+router.get('/game/planets', require('../controllers/game/planets'));
 
 module.exports = router;
 
