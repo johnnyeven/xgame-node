@@ -96,8 +96,13 @@
         padding: 5px 10px;
         z-index: 4;
       }
+
+      .row-fluid {
+        margin-bottom: 20px;
+      }
     </style>
     <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/public.css" rel="stylesheet">
   </head>
   <body>
     <%- include ../user_nav %>
@@ -142,25 +147,41 @@
               </ul>
             </div>
           </div>
-          <div class="thumbnail planets" style="background:url(/images/<%= locals.role.current_place %>.png) no-repeat;">
-            <div class="planets-name"></div>
-            <div class="planets-name-content">概况 - <%= place.name %></div>
-            <div class="planets-info"></div>
-            <div class="planets-info-content">
-              <table>
-                <tr>
-                  <th>直径</th>
-                  <td><%= place.diameter %>公里(1/163)</td>
-                </tr>
-                <tr>
-                  <th>气温</th>
-                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.max %>°C</td>
-                </tr>
-                <tr>
-                  <th>所在位置</th>
-                  <td><%= position.x %> &gt; <%= position.y %> &gt; <%= position.z %> &gt; <%= position.index %></td>
-                </tr>
-              </table>
+          <div class="row-fluid">
+            <div class="thumbnail planets" style="background:url(/images/<%= locals.role.current_place %>.png) no-repeat;">
+              <div class="planets-name"></div>
+              <div class="planets-name-content">概况 - <%= place.name %></div>
+              <div class="planets-info"></div>
+              <div class="planets-info-content">
+                <table>
+                  <tr>
+                    <th>直径</th>
+                    <td><%= place.diameter %>公里(1/163)</td>
+                  </tr>
+                  <tr>
+                    <th>气温</th>
+                    <td><%= place.temperature.min %>°C 至 <%= place.temperature.max %>°C</td>
+                  </tr>
+                  <tr>
+                    <th>所在位置</th>
+                    <td><%= position.x %> &gt; <%= position.y %> &gt; <%= position.z %> &gt; <%= position.index %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <div class="panel span4">
+              <div class="panel-header">建筑物</div>
+              <div class="panel-content">
+                afdasdfsadf
+              </div>
+            </div>
+            <div class="panel span4">
+
+            </div>
+            <div class="panel span4">
+
             </div>
           </div>
         </div>

@@ -1,1 +1,27 @@
 .clear {clear:both;}
+.panel {
+	background: #333;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+}
+
+.panel .panel-header {
+	color:#EEE;
+	padding:10px;
+    -webkit-border-radius:5px 5px 0 0;
+    -moz-border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0;
+	background-color: #1b1b1b;
+	background-image: -moz-linear-gradient(top, #333, #111);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#111));
+	background-image: -webkit-linear-gradient(top, #333, #111);
+	background-image: -o-linear-gradient(top, #333, #111);
+	background-image: linear-gradient(to bottom, #333, #111);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff333333', endColorstr='#ff111111', GradientType=0);
+}
+
+.panel .panel-content {
+	padding:10px;
+}
