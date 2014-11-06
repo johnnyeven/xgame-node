@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('session-mongoose')({session: session});
 var config = require('./config');
 
 var app = express();
@@ -26,7 +26,8 @@ app.use(cookieParser());
 app.use(session({
     secret: config.cookieSecret,
     sotre: new MongoStore({
-        db: config.game_db.database
+        url: "mongodb://" + config.game_db.ip + "/" + config.game_db.database,
+        interval: 120000
     })
 }));
 app.use(express.static(path.join(__dirname, 'public')));
