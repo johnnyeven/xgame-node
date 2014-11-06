@@ -106,8 +106,8 @@
       <div class="row content">
         <div class="span2">
           <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Planets</a></li>
+            <li class="active"><a href="/game/overview">Overview</a></li>
+            <li><a href="/game/planets">Planets</a></li>
             <li><a href="#">Science</a></li>
             <li><a href="#">Fleets</a></li>
           </ul>
@@ -141,7 +141,7 @@
               </ul>
             </div>
           </div>
-          <div class="thumbnail planets" style="background:url(/images/planet_001.png) no-repeat;">
+          <div class="thumbnail planets" style="background:url(/images/<%= locals.role.current_place %>.png) no-repeat;">
             <div class="planets-name"></div>
             <div class="planets-name-content">概况 - <%= place.name %></div>
             <div class="planets-info"></div>

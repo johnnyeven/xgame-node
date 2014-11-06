@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ConstPlanetsSchema = mongoose.Schema({
+var PlanetsSchema = mongoose.Schema({
 	id: String,
 	name: String,
 	description: String,
@@ -9,6 +9,8 @@ var ConstPlanetsSchema = mongoose.Schema({
 		z: Number,		//星系
 		index: Number	//位置
 	},
+	is_npc_legion: Boolean,
+	legion: String,
 	type: Number,		//1=固态 2=气态 3=液态
 	diameter: Number,	//直径
 	temperature: {
@@ -30,6 +32,6 @@ var ConstPlanetsSchema = mongoose.Schema({
 	}]
 
 });
-var ConstPlanets = mongoose.model('ConstPlanets', ConstPlanetsSchema, 'const_planets');
+var Planets = mongoose.model('Planets', PlanetsSchema, 'planets');
 
-module.exports = ConstPlanets;
+module.exports = Planets;

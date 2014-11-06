@@ -1,4 +1,7 @@
 .clear {clear:both;}
+.row-fluid {
+	margin-bottom: 20px;
+}
 .panel {
 	background: #333;
     -webkit-border-radius:5px;

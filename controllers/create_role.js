@@ -1,6 +1,6 @@
 module.exports = function(req, res, next) {
 	var input = req.body;
-	var species = input.species;
+	var species = parseInt(input.species);
 	var nickname = input.nickname;
 	var attribute1 = input.attribute1;
 	var attribute2 = input.attribute2;
@@ -10,45 +10,68 @@ module.exports = function(req, res, next) {
 
 	if(req.session.user) {
 		var mongo_connect = require('../modules/MongoConnection');
-		var Role = require('../modules/Role');
 		mongo_connect(function(db) {
 			if(db) {
-				var role = new Role({
-					account_id: req.session.user.id,
-					role_name: nickname,
-					role_species: species,
-					role_perception: attribute1,
-					role_perseverance: attribute2,
-					role_intelligence: attribute3,
-					role_enchantment: attribute4,
-					role_memory: attribute5,
-					role_regtime: new Date(),
-					role_astrological: 1,
-					resources: {
-						gold: 0,
-						antimatter: 0,
-						titanium: 500,
-						crystal: 500,
-						hydrogen: 100,
-						water: 0,
-						organics: 0
-					},
-					current_place: 'station_1001'
-				});
-				role.save(function(err) {
+				var ConstSpecies = require('../modules/ConstSpecies');
+				ConstSpecies.findOne({
+					id: species
+				}, function(err, s) {
 					if(err) {
-						db.close();
-						err.status = 500;
-						return next(err, req, res);
+						var data = {
+							code: 500,
+							message: err.message,
+							data: null
+						};
+						res.send(data);
 					}
-					req.session.role = role;
-					var data = {
-						code: 200,
-						message: '',
-						data: role
-					};
-					res.send(data);
-					db.close();
+					if(s) {
+						var Role = require('../modules/Role');
+						var role = new Role({
+							account_id: req.session.user.id,
+							role_name: nickname,
+							role_species: species,
+							role_perception: attribute1,
+							role_perseverance: attribute2,
+							role_intelligence: attribute3,
+							role_enchantment: attribute4,
+							role_memory: attribute5,
+							role_regtime: new Date(),
+							role_astrological: 1,
+							resources: {
+								gold: 0,
+								antimatter: 0,
+								titanium: 500,
+								crystal: 500,
+								hydrogen: 100,
+								water: 0,
+								organics: 0
+							},
+							current_place: s.born_place
+						});
+						role.save(function(err) {
+							if(err) {
+								db.close();
+								err.status = 500;
+								return next(err, req, res);
+							}
+
+							req.session.role = role;
+							var data = {
+								code: 200,
+								message: '',
+								data: role
+							};
+							res.send(data);
+							db.close();
+						});
+					} else {
+						var data = {
+							code: 404,
+							message: 'species id not found. id = ' + species,
+							data: null
+						};
+						res.send(data);
+					}
 				});
 			} else {
 				var data = {

@@ -32,16 +32,16 @@ module.exports = function(req, res, next) {
 						z: doc3.name,
 						index: place.position.index
 					};
-					var species = ['艾尔', '加特里', '迪里米克'];
+					var species = require('../../constants/species');
 					if(type == 'station') {
 						res.render('game/overview_station', {
-							species: species[req.session.role.role_species - 1],
+							species: species.name[req.session.role.role_species - 1],
 							place: place,
 							position: position
 						});
 					} else {
 						res.render('game/overview_planet', {
-							species: species[req.session.role.role_species - 1],
+							species: species.name[req.session.role.role_species - 1],
 							place: place,
 							position: position
 						});
@@ -76,8 +76,8 @@ module.exports = function(req, res, next) {
 					}
 				});
 			} else if(type == 'planet') {
-				var ConstPlanets = require('../../modules/ConstPlanets');
-				ConstPlanets.findOne({
+				var Planets = require('../../modules/Planets');
+				Planets.findOne({
 					id: current_place
 				}, function(err, planet) {
 					if(err) {

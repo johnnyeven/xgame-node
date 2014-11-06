@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var RoleSchema = mongoose.Schema({
 	account_id: Number,
 	role_name: String,
-	role_species: Number,
+	role_species: Number,			//1=艾尔 2=加特里 3=迪里米克
 	role_perception: Number,		//感知
 	role_perseverance: Number,		//毅力
 	role_intelligence: Number,		//智力
