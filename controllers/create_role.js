@@ -23,6 +23,7 @@ module.exports = function(req, res, next) {
 							data: null
 						};
 						res.send(data);
+						db.close();
 					}
 					if(s) {
 						var Role = require('../modules/Role');
@@ -71,6 +72,7 @@ module.exports = function(req, res, next) {
 							data: null
 						};
 						res.send(data);
+						db.close();
 					}
 				});
 			} else {
