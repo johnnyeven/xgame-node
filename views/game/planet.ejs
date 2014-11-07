@@ -164,6 +164,15 @@
                 </table>
               </div>
             </div>
+            <hr />
+            <h3>建筑</h3>
+            <ul class="thumbnails">
+              <% for(var i = 0; i < place.services.length; i++) { %>
+              <li>
+                <a href="#" class="thumbnail"><img src="/images/station/station_service_<%= place.services[i] %>.png" /></a>
+              </li>
+              <% } %>
+            </ul>
           </div>
         </div>
       </div>
