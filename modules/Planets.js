@@ -25,6 +25,10 @@ var PlanetsSchema = mongoose.Schema({
 		organics: Number
 	},
 	owner: String,		//占领者
+	buildings_limit: {
+		resources: [String],
+		functions: [String]
+	},
 	buildings: [{
 		id: String,
 		level: Number,

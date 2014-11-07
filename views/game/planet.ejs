@@ -167,9 +167,9 @@
             <hr />
             <h3>建筑</h3>
             <ul class="thumbnails">
-              <% for(var i = 0; i < place.services.length; i++) { %>
+              <% for(var i = 0; i < planet.buildings_limit.resources.length; i++) { %>
               <li>
-                <a href="#" class="thumbnail"><img src="/images/station/station_service_<%= place.services[i] %>.png" /></a>
+                <a href="#" class="thumbnail"><img src="/images/planet/<%= planet.buildings_limit.resources[i] %>.png" /></a>
               </li>
               <% } %>
             </ul>
