@@ -22,7 +22,7 @@
       }
 
       .planets-info {
-        width:300px;
+        width:400px;
         height:100px;
         position:absolute;
         bottom:0;
@@ -39,7 +39,7 @@
       }
 
       .planets-info-content {
-        width:290px;
+        width:390px;
         height:90px;
         position:absolute;
         bottom:0;
@@ -98,6 +98,7 @@
       }
     </style>
     <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/public.css" rel="stylesheet">
   </head>
   <body>
     <%- include ../user_nav %>
@@ -106,9 +107,8 @@
       <div class="row content">
         <div class="span2">
           <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Planets</a></li>
-            <li><a href="#">Building</a></li>
+            <li><a href="/game/overview">Overview</a></li>
+            <li class="active"><a href="/game/planets">Planets</a></li>
             <li><a href="#">Science</a></li>
             <li><a href="#">Fleets</a></li>
           </ul>
@@ -142,27 +142,27 @@
               </ul>
             </div>
           </div>
-          <div class="thumbnail planets" style="background:url(/images/planet_001.png) no-repeat;">
-            <div class="planets-name"></div>
-            <div class="planets-name-content">概况 - <%= place.name %></div>
-            <div class="planets-info"></div>
-            <div class="planets-info-content">
-              <table>
-                <% if(place.diameter) { %>
-                <tr>
-                  <th>直径</th>
-                  <td><%= place.diameter %>公里(1/163)</td>
-                </tr>
-                <tr>
-                  <th>气温</th>
-                  <td><%= place.temperature.min %>°C 至 <%= place.temperature.min %>°C</td>
-                </tr>
-                <% } %>
-                <tr>
-                  <th>所在位置</th>
-                  <td>波菲塔里斯 &gt; 米苏 &gt; A</td>
-                </tr>
-              </table>
+          <div class="row-fluid">
+            <div class="thumbnail planets" style="background:url(/images/planet/image/<%= planet.id %>_land.png) no-repeat;">
+              <div class="planets-name"></div>
+              <div class="planets-name-content">概况 - <%= planet.name %></div>
+              <div class="planets-info"></div>
+              <div class="planets-info-content">
+                <table>
+                  <tr>
+                    <th>直径</th>
+                    <td><%= planet.diameter %>公里(1/163)</td>
+                  </tr>
+                  <tr>
+                    <th>气温</th>
+                    <td><%= planet.temperature.min %>°C 至 <%= planet.temperature.max %>°C</td>
+                  </tr>
+                  <tr>
+                    <th>所在位置</th>
+                    <td><%= position.x %> &gt; <%= position.y %> &gt; <%= position.z %> &gt; <%= position.index %></td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>

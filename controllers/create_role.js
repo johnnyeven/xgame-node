@@ -50,11 +50,13 @@ module.exports = function(req, res, next) {
 							current_place: s.born_place
 						});
 						role.save(function(err) {
-							if(err) {
-								db.close();
-								err.status = 500;
-								return next(err, req, res);
-							}
+							db.close();
+							var data = {
+								code: 500,
+								message: err.message,
+								data: null
+							};
+							return res.send(data);
 
 							req.session.role = role;
 							var data = {

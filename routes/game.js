@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+//params
+
+//routes
 router.all('/game/*', checkLogin);
 router.all('/game/*', checkRole);
 router.get('/game/overview', require('../controllers/game/overview'));
 router.get('/game/planets', require('../controllers/game/planets'));
+router.get('/game/planet/:planet_id', require('../controllers/game/planet'));
 
 module.exports = router;
 

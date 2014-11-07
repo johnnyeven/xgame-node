@@ -55,7 +55,17 @@
             </div>
           </div>
           <div class="row-fluid">
-
+            <h3>殖民行星</h3>
+            <ul class="thumbnails">
+              <% for(var i = 0; i < planets.length; i++) { %>
+              <li>
+                <a href="/game/planet/<%= planets[i].id %>" class="thumbnail">
+                  <img src="/images/planet/image/<%= planets[i].id %>_small.png" />
+                  <h5 class="text-center"><%= planets[i].name %></h5>
+                </a>
+              </li>
+              <% } %>
+            </ul>
           </div>
         </div>
       </div>
