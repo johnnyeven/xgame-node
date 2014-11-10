@@ -1,0 +1,33 @@
+.resource_building {
+	width:100px;
+	height:100px;
+	background:url(../images/planet/resource_building.png) no-repeat;
+}
+
+.resource_denied {
+	background-position-y: -100px;
+}
+
+.resource_disabled {
+	background-position-y: -200px;
+}
+
+.building_1001 {
+	background-position-x: 0;
+}
+
+.building_1002 {
+	background-position-x: -100px;
+}
+
+.building_1003 {
+	background-position-x: -200px;
+}
+
+.building_1004 {
+	background-position-x: -300px;
+}
+
+.building_1005 {
+	background-position-x: -400px;
+}

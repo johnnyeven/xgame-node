@@ -170,7 +170,7 @@
             <ul class="thumbnails">
               <% for(var i = 0; i < planet.buildings_limit.resources.length; i++) { %>
               <li>
-                <a href="#" class="thumbnail"><img src="/images/planet/<%= planet.buildings_limit.resources[i] %>.png" /></a>
+                <a href="#" class="thumbnail"><div class="resource_building <%= planet.buildings_limit.resources[i] %>"></div></a>
               </li>
               <% } %>
             </ul>
