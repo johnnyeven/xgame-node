@@ -98,6 +98,7 @@
       }
     </style>
     <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/stylesheets/smoothness/jquery-ui.min.css" rel="stylesheet">
     <link href="/stylesheets/public.css" rel="stylesheet">
     <link href="/stylesheets/planet.css" rel="stylesheet">
   </head>
@@ -166,11 +167,41 @@
               </div>
             </div>
             <hr />
-            <h3>建筑</h3>
-            <ul class="thumbnails">
-              <% for(var i = 0; i < planet.buildings_limit.resources.length; i++) { %>
+            <h3>资源</h3>
+            <ul class="thumbnails buildings">
+              <% for(var i = 0; i < buildings.resources.length; i++) { %>
               <li>
-                <a href="#" class="thumbnail"><div class="resource_building <%= planet.buildings_limit.resources[i] %>"></div></a>
+                <% if(planet.buildings_limit.resources.indexOf(buildings.resources[i]) >= 0) { %>
+                <a href="#<%= buildings.resources[i] %>" class="thumbnail"><div class="resource_building <%= buildings.resources[i] %>">
+                  <div class="resource_building_info text-right">
+                    <h6>
+                    <%
+                    var b = locals.find_buildings_by_id(buildings.resources[i], planet.buildings);
+                    if(b) {
+                    %>
+                    <%= b.level %>
+                    <% } else { %>
+                    0
+                    <% } %>
+                    </h6>
+                  </div>
+                </div></a>
+                <% } else { %>
+                <a class="thumbnail"><div class="resource_building resource_disabled <%= buildings.resources[i] %>"></div></a>
+                <% } %>
+              </li>
+              <% } %>
+            </ul>
+            <hr />
+            <h3>设施</h3>
+            <ul class="thumbnails buildings">
+              <% for(var i = 0; i < buildings.functions.length; i++) { %>
+              <li>
+                <% if(planet.buildings_limit.functions.indexOf(buildings.functions[i]) >= 0) { %>
+                <a href="#<%= buildings.functions[i] %>" class="thumbnail"><div class="resource_building <%= buildings.functions[i] %>"></div></a>
+                <% } else { %>
+                <a class="thumbnail"><div class="resource_building resource_disabled <%= buildings.functions[i] %>"></div></a>
+                <% } %>
               </li>
               <% } %>
             </ul>
@@ -179,7 +210,14 @@
       </div>
     <%- include ../std_footer %>
     </div>
+    <div id="building_info" title="Building information">
+      <div class="progress progress-striped active" style="margin-top:30px;">
+        <div class="bar" style="width: 100%;"></div>
+      </div>
+    </div>
   </body>
-  <script src="/javascripts/jquery.min.js"></script> 
-  <script src="/javascripts/bootstrap.js"></script> 
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.js"></script>
+  <script src="/javascripts/planet.js"></script>
+  <script src="/javascripts/jquery-ui.min.js"></script>
 </html>

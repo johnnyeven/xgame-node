@@ -2,6 +2,19 @@
 	width:100px;
 	height:100px;
 	background:url(../images/planet/resource_building.png) no-repeat;
+	position:relative;
+}
+
+.resource_building_info {
+	width:100px;
+	height:100px;
+	position:absolute;
+	background:url(../images/planet/building_info_panel.gif);
+}
+
+.resource_building_info h6 {
+	margin:82px 5px;
+	color:#ffc600;
 }
 
 .resource_denied {

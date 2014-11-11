@@ -5,7 +5,6 @@ module.exports = function(req, res, next) {
 		Planets.find({
 			owner: req.session.role.role_name
 		}, function(err, planets) {
-			console.log(planets);
 			var species = require('../../constants/species');
 			res.render('game/planets', {
 				species: species.name[req.session.role.role_species - 1],

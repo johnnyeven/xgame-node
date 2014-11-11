@@ -33,8 +33,10 @@ module.exports = function(req, res, next) {
 						index: place.position.index
 					};
 					var species = require('../../constants/species');
+					var buildings = require('../../constants/buildings');
 					res.render('game/planet', {
 						species: species.name[req.session.role.role_species - 1],
+						buildings: buildings,
 						planet: place,
 						position: position
 					});
@@ -43,13 +45,13 @@ module.exports = function(req, res, next) {
 		});
 	};
 
+	res.locals.find_buildings_by_id = require('../../helpers/building_helper').find_buildings_by_id;
 	var mongo_connect = require('../../modules/MongoConnection');
 	mongo_connect(function(db) {
 		var Planets = require('../../modules/Planets');
 		Planets.findOne({
 			id: req.params.planet_id
 		}, function(err, planet) {
-			console.log(planet);
 			response(db, planet);
 		});
 	});

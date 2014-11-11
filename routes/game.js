@@ -9,6 +9,8 @@ router.all('/game/*', checkRole);
 router.get('/game/overview', require('../controllers/game/overview'));
 router.get('/game/planets', require('../controllers/game/planets'));
 router.get('/game/planet/:planet_id', require('../controllers/game/planet'));
+//Ajax
+router.get('/game/planet/:planet_id/:building_id', require('../controllers/game/get_building_on_planet'));
 
 module.exports = router;
 
@@ -26,6 +28,13 @@ function checkRole(req, res, next) {
 		var mongo_connect = require('../modules/MongoConnection');
 		var Role = require('../modules/Role');
 		mongo_connect(function(db) {
+			if(!db) {
+				var err = {
+					status: 500,
+					message: 'Database error.'
+				};
+				return next(err, req, res);
+			}
 			Role.findOne({
 				account_id: req.session.user.id
 			}, function(err, role) {
