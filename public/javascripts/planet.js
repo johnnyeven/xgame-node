@@ -2,8 +2,8 @@ $(function() {
 	var onBuildingInfo = function(data) {
 		if(data && data.code == 200) {
 			var building = data.data;
-			$("#building_info_content > div.building_info_attr > h3").text(building.name);
-			$("#building_info_content > div.building_info_comment > p").text(building.comment);
+			$("#building_info_content > div > div.building_info_attr > h3").text(building.name);
+			$("#building_info_content > div > div.building_info_comment > p").text(building.comment);
 			if(building.levels.length > 1) {
 				var current_level = building.levels[0];
 				var next_level = building.levels[1];
@@ -60,7 +60,7 @@ $(function() {
 
 	$("#building_info").dialog({
 		width: 700,
-		height:350,
+		height:400,
 		resizable: false,
 		autoOpen: false,
 		modal: true,
@@ -79,6 +79,7 @@ $(function() {
 		if(planet_id && href) {
 			var id = href.substr(1);
 			if(id) {
+				$("#building_id").text(id);
 				$("#building_info_progress").show();
 				$("#building_info_content").hide();
 				$("#building_info").dialog("open");

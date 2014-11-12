@@ -105,6 +105,7 @@
   <body>
     <%- include ../user_nav %>
     <div id="planet_id" style="display:none"><%= planet.id %></div>
+    <div id="building_id" style="display:none"></div>
     <div id="container" class="container">
       <div class="row content">
         <div class="span2">
@@ -215,66 +216,68 @@
         <div class="bar" style="width: 100%;"></div>
       </div>
       <div id="building_info_content" class="row-fluid" style="display:none;">
-        <div class="span7 building_info_attr">
-          <h3></h3>
-          <hr />
-          <div class="row-fluid">
-            <div class="span6">
-              <h5>目前产量</h5>
-              <table class="table" id="building_info_attr_product">
-                <tr class="production_titanium">
-                  <th>钛合金产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_crystal">
-                  <th>晶体产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_hydrogen">
-                  <th>氚氢气产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_water">
-                  <th>水产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_organics">
-                  <th>有机物产量</th>
-                  <td>0</td>
-                </tr>
-              </table>
-            </div>
-            <div class="span6">
-              <h5>下一级产量</h5>
-              <table class="table" id="building_info_attr_product_next">
-                <tr class="production_titanium_next">
-                  <th>钛合金产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_crystal_next">
-                  <th>晶体产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_hydrogen_next">
-                  <th>氚氢气产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_water_next">
-                  <th>水产量</th>
-                  <td>0</td>
-                </tr>
-                <tr class="production_organics_next">
-                  <th>有机物产量</th>
-                  <td>0</td>
-                </tr>
-              </table>
+        <div class="row-fluid">
+          <div class="span7 building_info_attr">
+            <h3></h3>
+            <hr />
+            <div class="row-fluid">
+              <div class="span6">
+                <h5>目前产量</h5>
+                <table class="table" id="building_info_attr_product">
+                  <tr class="production_titanium">
+                    <th>钛合金产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_crystal">
+                    <th>晶体产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_hydrogen">
+                    <th>氚氢气产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_water">
+                    <th>水产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_organics">
+                    <th>有机物产量</th>
+                    <td>0</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="span6">
+                <h5>下一级产量</h5>
+                <table class="table" id="building_info_attr_product_next">
+                  <tr class="production_titanium_next">
+                    <th>钛合金产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_crystal_next">
+                    <th>晶体产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_hydrogen_next">
+                    <th>氚氢气产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_water_next">
+                    <th>水产量</th>
+                    <td>0</td>
+                  </tr>
+                  <tr class="production_organics_next">
+                    <th>有机物产量</th>
+                    <td>0</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
+          <div class="span5 building_info_comment">
+            <p></p>
+          </div>
         </div>
-        <div class="span5 building_info_comment">
-          <p></p>
-        </div>
-        <div class="span12 text-center">
+        <div class="row-fluid text-center">
           <button class="btn btn-success">Upgrade</button>
         </div>
       </div>
