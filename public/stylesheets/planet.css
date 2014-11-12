@@ -34,7 +34,7 @@
 }
 
 .building_1003 {
-	background-position-x: -200px;
+	background-position-x: -400px;
 }
 
 .building_1004 {
@@ -43,4 +43,12 @@
 
 .building_1005 {
 	background-position-x: -400px;
+}
+
+.building_1006 {
+	background-position-x: -500px;
+}
+
+.building_info_comment {
+	height:180px;
 }
