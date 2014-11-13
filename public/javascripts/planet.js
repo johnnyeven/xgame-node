@@ -58,6 +58,10 @@ $(function() {
 		}
 	};
 
+	var onBuildingUpgrade = function(data) {
+
+	};
+
 	$("#building_info").dialog({
 		width: 700,
 		height:400,
@@ -83,8 +87,19 @@ $(function() {
 				$("#building_info_progress").show();
 				$("#building_info_content").hide();
 				$("#building_info").dialog("open");
-				$.post('/game/planet/' + planet_id + '/' + id, {}, onBuildingInfo);
+				$.post('/game/planet/' + planet_id + '/' + id, null, onBuildingInfo);
 			}
+		}
+	});
+	$("#btn_upgrade").click(function() {
+		var planet_id = $("#planet_id").text();
+		var building_id = $("#building_id").text();
+		if(planet_id && building_id) {
+			$(this).addClass('disabled');
+			$(this).attr('disabled', 'disabled');
+			$.post('/game/planet/' + planet_id + '/build', {
+				building_id: building_id
+			}, onBuildingUpgrade);
 		}
 	});
 });
