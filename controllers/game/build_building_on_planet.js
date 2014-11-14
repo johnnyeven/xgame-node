@@ -37,11 +37,11 @@ module.exports = function(req, res, next) {
 						res.send(data);
 						db.close();
 					} else {
-						var find_buildings_by_id = require('../../helpers/building_helper').find_buildings_by_id;
-						var b = find_buildings_by_id(building_id, planet.buildings);
+						var find_buildings_index_by_id = require('../../helpers/building_helper').find_buildings_index_by_id;
+						var building_index = find_buildings_index_by_id(building_id, planet.buildings);
 						var current_level = 0;
-						if(b) {
-							current_level = b.level;
+						if(building_index >= 0) {
+							current_level = planet.buildings[building_index].level;
 						}
 						var ConstBuildings = require('../../modules/ConstBuildings');
 						ConstBuildings.findOne({
@@ -69,7 +69,53 @@ module.exports = function(req, res, next) {
 								return res.send(data);
 							}
 
+							var required = building.levels[0].requires;
+							var resources = req.session.role.resources;
 
+							if(resources.titanium >= required.titanium &&
+								resources.crystal >= required.crystal &&
+								resources.hydrogen >= required.hydrogen &&
+								resources.water >= required.water &&
+								resources.organics >= required.organics) {
+
+								req.session.role.resources.titanium -= required.titanium;
+								req.session.role.resources.crystal -= required.crystal;
+								req.session.role.resources.hydrogen -= required.hydrogen;
+								req.session.role.resources.water -= required.water;
+								req.session.role.resources.organics -= required.organics;
+								req.session.role.save(function(err, doc) {
+									if(building_index >= 0) {
+										planet.buildings[building_index].level++;
+										planet.buildings[building_index].complete_time = new Date().getTime() + building.levels[0].upgrade_time;
+									} else {
+										var b = {
+											id: building.id,
+											level: building.levels[0].level,
+											complete_time: new Date().getTime() + building.levels[0].upgrade_time
+										}
+										planet.buildings.push(b);
+									}
+									planet.save(function(err, doc) {
+										if(err) {
+											var data = {
+												code: 500,
+												message: err.message,
+												data: building
+											};
+											return res.send(data);
+										}
+
+										res.send('Ok');
+									});
+								});
+							} else {
+								var data = {
+									code: 400,
+									message: 'Resource not enough.',
+									data: building
+								};
+								return res.send(data);
+							}
 						});
 					}
 				} else {
@@ -81,7 +127,7 @@ module.exports = function(req, res, next) {
 					};
 					return res.send(data);
 				}
-			}
+			});
 		});
 	} else {
 		var data = {

@@ -10,8 +10,8 @@ router.get('/game/overview', require('../controllers/game/overview'));
 router.get('/game/planets', require('../controllers/game/planets'));
 router.get('/game/planet/:planet_id', require('../controllers/game/planet'));
 //Ajax
-router.post('/game/planet/:planet_id/:building_id', require('../controllers/game/get_building_on_planet'));
 router.post('/game/planet/:planet_id/build', require('../controllers/game/build_building_on_planet'));
+router.post('/game/planet/:planet_id/:building_id', require('../controllers/game/get_building_on_planet'));
 
 module.exports = router;
 
