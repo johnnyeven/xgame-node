@@ -13,6 +13,8 @@ module.exports = function(req, res, next) {
 				return res.send(data);
 			}
 
+			var time = parseInt(new Date().getTime() / 1000);
+
 			var Planets = require('../../modules/Planets');
 			Planets.findOne({
 				id: req.params.planet_id
@@ -41,7 +43,17 @@ module.exports = function(req, res, next) {
 						var building_index = find_buildings_index_by_id(building_id, planet.buildings);
 						var current_level = 0;
 						if(building_index >= 0) {
-							current_level = planet.buildings[building_index].level;
+							var planet_building = planet.buildings[building_index];
+							if(planet_building.complete_time > time) {
+								db.close();
+								var data = {
+									code: 402,
+									message: 'Building is updating. Not allow to upgrade again.',
+									data: null
+								};
+								return res.send(data);
+							}
+							current_level = planet_building.level;
 						}
 						var ConstBuildings = require('../../modules/ConstBuildings');
 						ConstBuildings.findOne({
@@ -51,8 +63,8 @@ module.exports = function(req, res, next) {
 								'$slice': [current_level, 1]
 							}
 						}, function(err, building) {
-							db.close();
 							if(err) {
+								db.close();
 								var data = {
 									code: 500,
 									message: err.message,
@@ -61,6 +73,7 @@ module.exports = function(req, res, next) {
 								return res.send(data);
 							}
 							if(!building) {
+								db.close();
 								var data = {
 									code: 404,
 									message: 'The building is not exist.',
@@ -86,16 +99,17 @@ module.exports = function(req, res, next) {
 								req.session.role.save(function(err, doc) {
 									if(building_index >= 0) {
 										planet.buildings[building_index].level++;
-										planet.buildings[building_index].complete_time = new Date().getTime() + building.levels[0].upgrade_time;
+										planet.buildings[building_index].complete_time = time + building.levels[0].upgrade_time;
 									} else {
 										var b = {
 											id: building.id,
 											level: building.levels[0].level,
-											complete_time: new Date().getTime() + building.levels[0].upgrade_time
+											complete_time: time + building.levels[0].upgrade_time
 										}
 										planet.buildings.push(b);
 									}
 									planet.save(function(err, doc) {
+										db.close();
 										if(err) {
 											var data = {
 												code: 500,
@@ -105,7 +119,12 @@ module.exports = function(req, res, next) {
 											return res.send(data);
 										}
 
-										res.send('Ok');
+										var data = {
+											code: 200,
+											message: '',
+											data: doc
+										};
+										return res.send(data);
 									});
 								});
 							} else {

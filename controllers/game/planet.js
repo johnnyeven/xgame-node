@@ -52,6 +52,14 @@ module.exports = function(req, res, next) {
 		Planets.findOne({
 			id: req.params.planet_id
 		}, function(err, planet) {
+			var time = parseInt(new Date().getTime() / 1000);
+			var complete = false;
+			for(var i in planet.buildings) {
+				var b = planet.buildings[i];
+				if(b.complete_time <= time) {
+					planet.buildings[i].complete_time = 0;
+				}
+			}
 			response(db, planet);
 		});
 	});

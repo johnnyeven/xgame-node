@@ -17,7 +17,8 @@ var RoleSchema = mongoose.Schema({
 		crystal: Number,			//晶体
 		hydrogen: Number,			//氚氢气
 		water: Number,				//水
-		organics: Number			//有机物
+		organics: Number,			//有机物,
+		updated: Number				//上次更新时间
 	},
 	current_place: String			//目前所在地
 });
