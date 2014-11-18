@@ -58,7 +58,11 @@ module.exports = function(req, res, next) {
 				var b = planet.buildings[i];
 				if(b.complete_time <= time) {
 					planet.buildings[i].complete_time = 0;
+					complete = true;
 				}
+			}
+			if(complete) {
+				planet.save();
 			}
 			response(db, planet);
 		});
