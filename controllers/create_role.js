@@ -51,12 +51,14 @@ module.exports = function(req, res, next) {
 						});
 						role.save(function(err) {
 							db.close();
-							var data = {
-								code: 500,
-								message: err.message,
-								data: null
-							};
-							return res.send(data);
+							if(err) {
+								var data = {
+									code: 500,
+									message: err.message,
+									data: null
+								};
+								return res.send(data);
+							}
 
 							req.session.role = role;
 							var data = {
@@ -65,7 +67,6 @@ module.exports = function(req, res, next) {
 								data: role
 							};
 							res.send(data);
-							db.close();
 						});
 					} else {
 						var data = {

@@ -20,8 +20,29 @@ var RoleSchema = mongoose.Schema({
 		organics: Number,			//有机物,
 		updated: Number				//上次更新时间
 	},
+	production_rate: {
+		gold: Number,				//金币，
+		antimatter: Number,			//反物质
+		titanium: Number,			//钛合金
+		crystal: Number,			//晶体
+		hydrogen: Number,			//氚氢气
+		water: Number,				//水
+		organics: Number,			//有机物,
+		updated: Number				//上次更新时间
+	},
 	current_place: String			//目前所在地
 });
+RoleSchema.methods.rebuild_production_rate = function(db, callback) {
+	if(db) {
+
+	} else {
+		var err = {
+			status: 500,
+			message: 'db is required'
+		};
+		callback(err);
+	}
+};
 var Role = mongoose.model('Role', RoleSchema, 'roles');
 
 module.exports = Role;
