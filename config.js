@@ -9,6 +9,7 @@ module.exports = {
 	},
 	game_db: {
 		ip: 'localhost',
+		port: 27017,
 		database: 'profzone_xgame_gamedb'
 	}
 };

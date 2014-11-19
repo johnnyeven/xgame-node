@@ -29,11 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
     secret: config.cookieSecret,
-    cookie: {
-        maxAge: 3600000
-    },
-    sotre: new MongoStore({
-        db: config.game_db.database
+    store: new MongoStore({
+        url: "mongodb://" + config.game_db.ip + "/" + config.game_db.database + "/sessions"
     }),
     resave: true,
     saveUninitialized: true
