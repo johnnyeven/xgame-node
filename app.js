@@ -6,8 +6,7 @@ var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var connect = require('connect');
-var MongoStore = require('session-mongoose')(connect);
+var MongoStore = require('connect-mongo')(session);
 var config = require('./config');
 
 var app = express();
@@ -30,10 +29,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
     secret: config.cookieSecret,
+    cookie: {
+        maxAge: 3600000
+    },
     sotre: new MongoStore({
-        url: "mongodb://" + config.game_db.ip + "/" + config.game_db.database,
-        interval: 120000
-    })
+        db: config.game_db.database
+    }),
+    resave: true,
+    saveUninitialized: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
