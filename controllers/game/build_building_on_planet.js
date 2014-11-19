@@ -128,6 +128,7 @@ module.exports = function(req, res, next) {
 									});
 								});
 							} else {
+								db.close();
 								var data = {
 									code: 400,
 									message: 'Resource not enough.',
