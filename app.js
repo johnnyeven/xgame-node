@@ -6,7 +6,8 @@ var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoStore = require('session-mongoose')({session: session});
+var connect = require('connect');
+var MongoStore = require('session-mongoose')(connect);
 var config = require('./config');
 
 var app = express();
