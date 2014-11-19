@@ -3,6 +3,7 @@ var ConstStationsSchema = mongoose.Schema({
 	id: String,
 	name: String,
 	description: String,
+	legion: String,
 	position: {
 		x: Number,		//星域
 		y: Number,		//星座
