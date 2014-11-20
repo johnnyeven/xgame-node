@@ -15,7 +15,7 @@ router.post('/login', require('../controllers/login'));
 router.post('/register', require('../controllers/register'));
 
 router.all('/role', checkLogin);
-router.get('/role', require('../controllers/role'));
+router.get('/role', require('../controllers/role').index);
 router.post('/role', require('../controllers/create_role'));
 
 module.exports = router;

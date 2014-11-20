@@ -6,7 +6,7 @@ var router = express.Router();
 //routes
 router.all('/game/*', checkLogin);
 router.all('/game/*', checkRole);
-router.get('/game/overview', require('../controllers/game/overview'));
+router.get('/game/overview', require('../controllers/game/overview').index);
 router.get('/game/planets', require('../controllers/game/planets'));
 router.get('/game/planet/:planet_id', require('../controllers/game/planet'));
 //Ajax
@@ -26,32 +26,18 @@ function checkRole(req, res, next) {
 	if(!req.session.role) {
 		return res.redirect('/role');
 	} else {
-		var mongo_connect = require('../modules/MongoConnection');
-		var Role = require('../modules/Role');
-		mongo_connect(function(db) {
-			if(!db) {
-				var err = {
-					status: 500,
-					message: 'Database error.'
-				};
+		var Role = require('../proxy').Role;
+		Role.getRoleByAccountId(req.session.user.id, function(err, role) {
+			if(err) {
 				return next(err, req, res);
 			}
-			Role.findOne({
-				account_id: req.session.user.id
-			}, function(err, role) {
-				db.close();
-				if(err) {
-					err.status = 500;
-					return next(err, req, res);
-				}
-				if(role) {
-					req.session.role = role;
-				} else {
-					req.session.role = null;
-					return res.redirect('/role');
-				}
-				next();
-			});
+			if(role) {
+				req.session.role = role;
+			} else {
+				req.session.role = null;
+				return res.redirect('/role');
+			}
+			next();
 		});
 	}
 }

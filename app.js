@@ -78,5 +78,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
+require('./modules');
 module.exports = app;
