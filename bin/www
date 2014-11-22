@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('xgame-node');
+var debug = require('debug')('xgame');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 6089);

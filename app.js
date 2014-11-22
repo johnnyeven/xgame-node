@@ -13,6 +13,7 @@ var app = express();
 
 // enviroment
 // app.set('env', 'production');
+app.set('env', 'development');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -66,17 +67,17 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
-}
-
+} else {
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
     });
-});
+}
 
 require('./modules');
 module.exports = app;

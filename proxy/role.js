@@ -22,3 +22,21 @@ exports.getRoleByAccountId = function(id, callback) {
         ep.emit('data', role);
     }));
 };
+
+/**
+ * 创建新角色
+ * callback
+ * - err 数据库错误
+ * - role 新创建的角色
+ * @param options
+ * @param callback
+ */
+exports.save = function(options, callback) {
+    var role = new Role(options);
+    role.save(function(err) {
+        if(err) {
+            return callback(err, null);
+        }
+        return callback(null, role);
+    });
+};
