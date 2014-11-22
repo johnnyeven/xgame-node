@@ -1,70 +1,25 @@
 module.exports = function(req, res, next) {
-	var response = function(db, place) {
-		var ConstPosition1 = require('../../modules/ConstPosition1');
-		ConstPosition1.findOne({
-			id: place.position.x,
-		}, function(err, doc1) {
-			if(err) {
-				err.status = 500;
-				return next(err, req, res);
-			}
-			var ConstPosition2 = require('../../modules/ConstPosition2');
-			ConstPosition2.findOne({
-				id: place.position.y,
-			}, function(err, doc2) {
-				if(err) {
-					err.status = 500;
-					return next(err, req, res);
-				}
-				var ConstPosition3 = require('../../modules/ConstPosition3');
-				ConstPosition3.findOne({
-					id: place.position.z,
-				}, function(err, doc3) {
-					if(err) {
-						err.status = 500;
-						return next(err, req, res);
-					}
-					db.close();
-
-					var position = {
-						x: doc1.name,
-						y: doc2.name,
-						z: doc3.name,
-						index: place.position.index
-					};
-					var species = require('../../constants/species');
-					var buildings = require('../../constants/buildings');
-					res.render('game/planet', {
-						species: species.name[req.session.role.role_species - 1],
-						buildings: buildings,
-						planet: place,
-						position: position
-					});
-				});
-			});
-		});
-	};
-
 	res.locals.find_buildings_by_id = require('../../helpers/building_helper').find_buildings_by_id;
-	var mongo_connect = require('../../modules/MongoConnection');
-	mongo_connect(function(db) {
-		var Planets = require('../../modules/Planets');
-		Planets.findOne({
-			id: req.params.planet_id
-		}, function(err, planet) {
-			var time = parseInt(new Date().getTime() / 1000);
-			var complete = false;
-			for(var i in planet.buildings) {
-				var b = planet.buildings[i];
-				if(b.complete_time <= time) {
-					planet.buildings[i].complete_time = 0;
-					complete = true;
-				}
-			}
-			if(complete) {
-				planet.save();
-			}
-			response(db, planet);
+	var Planet = require('../../proxy').Planets;
+	Planet.getPlanetById(req.params.planet_id, function(err, planet) {
+		if(err) {
+			return next(err, req, res);
+		}
+		if(!planet) {
+			//如果没有找到对应星球
+			//FIXME 修改错误处理
+			var err = {
+				status: 200,
+				message: "Can't find the planet(id = " + current_place + ")"
+			};
+			return next(err, req, res);
+		}
+		var species = require('../../constants/species');
+		var buildings = require('../../constants/buildings');
+		res.render('game/planet', {
+			species: species.name[req.session.role.role_species - 1],
+			buildings: buildings,
+			planet: planet
 		});
-	});
+	})
 };

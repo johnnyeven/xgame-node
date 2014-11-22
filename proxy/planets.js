@@ -51,3 +51,22 @@ exports.getPlanetById = function(id, callback) {
         }));
     });
 };
+
+/**
+ * 根据所有者获取星球信息
+ * callback
+ * - err 数据库错误
+ * - planets 星球列表
+ * @param owner 所有者
+ * @param callback 回调
+ */
+exports.getPlanetsByOwner = function(owner, callback) {
+    Planet.find({
+        owner: owner
+    }, function(err, planets) {
+        if(err) {
+            return callback(err, null);
+        }
+        return callback(null, planets);
+    });
+};
