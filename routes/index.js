@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var role =  require('../controllers/role');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -15,8 +16,8 @@ router.post('/login', require('../controllers/login'));
 router.post('/register', require('../controllers/register'));
 
 router.all('/role', checkLogin);
-router.get('/role', require('../controllers/role').index);
-router.post('/role', require('../controllers/create_role'));
+router.get('/role', role.index);
+router.post('/role', role.create);
 
 module.exports = router;
 

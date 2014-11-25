@@ -1,7 +1,7 @@
 $(function() {
 	var onBuildingInfo = function(data) {
 		if(data && data.code == 200) {
-			var building = data.data;
+			var building = data.data.building;
 			$("#building_info_content > div > div.building_info_attr > h3").text(building.name);
 			$("#building_info_content > div > div.building_info_comment > p").text(building.comment);
 			if(building.levels.length > 1) {
@@ -59,7 +59,10 @@ $(function() {
 	};
 
 	var onBuildingUpgrade = function(data) {
-
+		if(data && data.code == 200) {
+			$("#btn_upgrade").hide();
+			$("#building_button_progress").show();
+		}
 	};
 
 	$("#building_info").dialog({
