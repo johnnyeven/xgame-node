@@ -32,6 +32,7 @@ var PlanetsSchema = mongoose.Schema({
 	buildings: [{
 		id: String,
 		level: Number,
+		start_time: Number,
 		complete_time: Number
 	}]
 

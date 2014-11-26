@@ -1,5 +1,6 @@
 exports.index = function(req, res, next) {
 	res.locals.find_buildings_by_id = require('../../helpers/building_helper').find_buildings_by_id;
+	res.locals.format_count_down = require('../../helpers/time_helper').format_count_down;
 	var Planet = require('../../proxy').Planets;
 	Planet.getPlanetById(req.params.planet_id, function(err, planet) {
 		if(err) {
@@ -17,6 +18,7 @@ exports.index = function(req, res, next) {
 		var species = require('../../constants/species');
 		var buildings = require('../../constants/buildings');
 		res.render('game/planet', {
+			time: parseInt(new Date().getTime() / 1000),
 			species: species.name[req.session.role.role_species - 1],
 			buildings: buildings,
 			planet: planet
@@ -171,11 +173,13 @@ exports.build_building_on_planet = function(req, res, next) {
 							req.session.role.save(function (err, doc) {
 								if (building_index >= 0) {
 									planet.buildings[building_index].level++;
+									planet.buildings[building_index].start_time = time;
 									planet.buildings[building_index].complete_time = time + building.levels[0].upgrade_time;
 								} else {
 									var b = {
 										id: building.id,
 										level: building.levels[0].level,
+										start_time: time,
 										complete_time: time + building.levels[0].upgrade_time
 									}
 									planet.buildings.push(b);
@@ -185,7 +189,7 @@ exports.build_building_on_planet = function(req, res, next) {
 										var data = {
 											code: 500,
 											message: err.message,
-											data: building
+											data: null
 										};
 										return res.send(data);
 									}
@@ -193,7 +197,10 @@ exports.build_building_on_planet = function(req, res, next) {
 									var data = {
 										code: 200,
 										message: '',
-										data: doc
+										data: {
+											building: building,
+											planet: doc
+										}
 									};
 									return res.send(data);
 								});

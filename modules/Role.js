@@ -30,7 +30,8 @@ var RoleSchema = mongoose.Schema({
 		organics: Number,			//有机物,
 		updated: Number				//上次更新时间
 	},
-	current_place: String			//目前所在地
+	current_place: String,			//目前所在地
+	building_sequence: Number		//最长建筑排程 单位个
 });
 RoleSchema.methods.rebuild_production_rate = function(db, callback) {
 	if(db) {

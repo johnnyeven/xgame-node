@@ -59,7 +59,8 @@ exports.create = function(req, res, next) {
 						water: 0,
 						organics: 0
 					},
-					current_place: species.born_place
+					current_place: species.born_place,
+					building_sequence: 1
 				};
 				Role.save(option, function (err, role) {
 					if (err) {
