@@ -22,6 +22,7 @@ function checkLogin(req, res, next) {
 	if(!req.session.user) {
 		return res.redirect('/login');
 	}
+	res.locals.user = req.session.user;
 	next();
 }
 
@@ -36,6 +37,7 @@ function checkRole(req, res, next) {
 			}
 			if(role) {
 				req.session.role = role;
+				res.locals.role = role;
 			} else {
 				req.session.role = null;
 				return res.redirect('/role');

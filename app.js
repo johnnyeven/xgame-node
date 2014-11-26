@@ -39,8 +39,6 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    res.locals.user = req.session.user;
-    res.locals.role = req.session.role;
     res.locals.time = new Date().getTime();
     next();
 });
@@ -54,8 +52,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-// error handlers
 
 // development error handler
 // will print stacktrace
