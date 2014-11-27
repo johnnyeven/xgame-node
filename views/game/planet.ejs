@@ -173,8 +173,8 @@
               <% for(var i = 0; i < buildings.resources.length; i++) { %>
               <li>
                 <% if(planet.buildings_limit.resources.indexOf(buildings.resources[i]) >= 0) { %>
-                <a href="#<%= buildings.resources[i] %>" class="thumbnail"><div class="resource_building <%= buildings.resources[i] %>">
-                  <% var b = locals.find_buildings_by_id(buildings.resources[i], planet.buildings); %>
+                <% var b = locals.find_buildings_by_id(buildings.resources[i], planet.buildings); %>
+                <a href="#<%= buildings.resources[i] %>" class="thumbnail"><div class="resource_building <%= buildings.resources[i] %> <% if(((b && b.complete_time < time) || !b) && !can_construct) { %>resource_denied<% } %>">
                   <% if(b && b.complete_time > time) { %>
                   <% var remain_time = b.complete_time - time; %>
                   <div class="resource_building_construction">
@@ -291,7 +291,6 @@
         </div>
         <div class="row-fluid text-center">
           <div id="building_info_message" class="text-left alert" style="display: none;">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
             <span></span>
           </div>
           <div id="building_info_time" style="display: none;">

@@ -1,3 +1,17 @@
+var can_construct = function(planet, limit) {
+	var time = parseInt(new Date().getTime() / 1000);
+	var total_construction = 0;
+	for( var i in planet.buildings) {
+		if(planet.buildings[i].complete_time > time) {
+			total_construction++;
+			if(total_construction >= limit) {
+				return false;
+			}
+		}
+	}
+	return true;
+};
+
 exports.index = function(req, res, next) {
 	res.locals.find_buildings_by_id = require('../../helpers/building_helper').find_buildings_by_id;
 	res.locals.format_count_down = require('../../helpers/time_helper').format_count_down;
@@ -17,11 +31,14 @@ exports.index = function(req, res, next) {
 		}
 		var species = require('../../constants/species');
 		var buildings = require('../../constants/buildings');
+
+		var time = parseInt(new Date().getTime() / 1000);
 		res.render('game/planet', {
-			time: parseInt(new Date().getTime() / 1000),
+			time: time,
 			species: species.name[req.session.role.role_species - 1],
 			buildings: buildings,
-			planet: planet
+			planet: planet,
+			can_construct: can_construct(planet, req.session.role.building_sequence)
 		});
 	})
 };
@@ -78,7 +95,8 @@ exports.get_building_on_planet = function(req, res, next) {
 					message: '',
 					data: {
 						planet: planet,
-						building: building
+						building: building,
+						can_construct: can_construct(planet, req.session.role.building_sequence)
 					}
 				};
 				res.send(data);
@@ -112,6 +130,14 @@ exports.build_building_on_planet = function(req, res, next) {
 					};
 					return res.send(data);
 				} else {
+					if(!can_construct(planet, req.session.role.building_sequence)) {
+						var data = {
+							code: 403,
+							message: '建造队列已满',
+							data: null
+						};
+						return res.send(data);
+					}
 					var find_buildings_index_by_id = require('../../helpers/building_helper').find_buildings_index_by_id;
 					var building_index = find_buildings_index_by_id(building_id, planet.buildings);
 					var current_level = 0;
@@ -199,7 +225,8 @@ exports.build_building_on_planet = function(req, res, next) {
 										message: '',
 										data: {
 											building: building,
-											planet: doc
+											planet: doc,
+											can_construct: can_construct(doc, req.session.role.building_sequence)
 										}
 									};
 									return res.send(data);

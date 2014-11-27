@@ -59,6 +59,11 @@ $(function() {
 			$("#building_info_progress").hide();
 			$("#building_info_content").show();
 
+			if(!data.data.can_construct) {
+				$("#btn_upgrade").hide();
+				showAlert('error', '建造队列已满');
+			}
+
 			var b = find_buildings_by_id(data.data.building.id, data.data.planet.buildings);
 			if(b) {
 				var time = parseInt(new Date().getTime() / 1000);
@@ -119,6 +124,14 @@ $(function() {
 
 					var html = '<div class="resource_building_construction"><div class="resource_building_upgrade_mask"></div><div class="resource_building_upgrade_time text-center"><strong>' + time_format + '</strong></div><input class="start_time" type="hidden" value="' + b.start_time + '" /><input class="end_time" type="hidden" value="' + b.complete_time + '" /><input class="remain_time" type="hidden" value="' + remain + '" /></div>';
 					$(".buildings").find("div." + b.id).prepend(html);
+				}
+
+				if(!data.data.can_construct) {
+					$(".buildings").find("div.resource_building").each(function() {
+						if($(this).find("div.resource_building_construction").length == 0 && !$(this).hasClass("resource_disabled")) {
+							$(this).addClass("resource_denied");
+						}
+					});
 				}
 			}
 		}
