@@ -23,19 +23,18 @@ exports.index = function(req, res, next) {
 		if(!planet) {
 			//如果没有找到对应星球
 			//FIXME 修改错误处理
-			var err = {
+			err = {
 				status: 200,
 				message: "Can't find the planet(id = " + current_place + ")"
 			};
 			return next(err, req, res);
 		}
-		var species = require('../../constants/species');
+		req.session.planet = planet;
 		var buildings = require('../../constants/buildings');
 
 		var time = parseInt(new Date().getTime() / 1000);
 		res.render('game/planet', {
 			time: time,
-			species: species.name[req.session.role.role_species - 1],
 			buildings: buildings,
 			planet: planet,
 			can_construct: can_construct(planet, req.session.role.building_sequence)
@@ -183,7 +182,7 @@ exports.build_building_on_planet = function(req, res, next) {
 						}
 
 						var required = building.levels[0].requires;
-						var resources = req.session.role.resources;
+						var resources = planet.resources;
 
 						if (resources.titanium >= required.titanium &&
 							resources.crystal >= required.crystal &&
@@ -191,46 +190,45 @@ exports.build_building_on_planet = function(req, res, next) {
 							resources.water >= required.water &&
 							resources.organics >= required.organics) {
 
-							req.session.role.resources.titanium -= required.titanium;
-							req.session.role.resources.crystal -= required.crystal;
-							req.session.role.resources.hydrogen -= required.hydrogen;
-							req.session.role.resources.water -= required.water;
-							req.session.role.resources.organics -= required.organics;
-							req.session.role.save(function (err, doc) {
-								if (building_index >= 0) {
-									planet.buildings[building_index].level++;
-									planet.buildings[building_index].start_time = time;
-									planet.buildings[building_index].complete_time = time + building.levels[0].upgrade_time;
-								} else {
-									var b = {
-										id: building.id,
-										level: building.levels[0].level,
-										start_time: time,
-										complete_time: time + building.levels[0].upgrade_time
-									}
-									planet.buildings.push(b);
-								}
-								planet.save(function (err, doc) {
-									if (err) {
-										var data = {
-											code: 500,
-											message: err.message,
-											data: null
-										};
-										return res.send(data);
-									}
+							planet.resources.titanium -= required.titanium;
+							planet.resources.crystal -= required.crystal;
+							planet.resources.hydrogen -= required.hydrogen;
+							planet.resources.water -= required.water;
+							planet.resources.organics -= required.organics;
 
+							if (building_index >= 0) {
+								planet.buildings[building_index].level++;
+								planet.buildings[building_index].start_time = time;
+								planet.buildings[building_index].complete_time = time + building.levels[0].upgrade_time;
+							} else {
+								var b = {
+									id: building.id,
+									level: building.levels[0].level,
+									start_time: time,
+									complete_time: time + building.levels[0].upgrade_time
+								}
+								planet.buildings.push(b);
+							}
+							planet.save(function (err, doc) {
+								if (err) {
 									var data = {
-										code: 200,
-										message: '',
-										data: {
-											building: building,
-											planet: doc,
-											can_construct: can_construct(doc, req.session.role.building_sequence)
-										}
+										code: 500,
+										message: err.message,
+										data: null
 									};
 									return res.send(data);
-								});
+								}
+
+								var data = {
+									code: 200,
+									message: '',
+									data: {
+										building: building,
+										planet: doc,
+										can_construct: can_construct(doc, req.session.role.building_sequence)
+									}
+								};
+								return res.send(data);
 							});
 						} else {
 							var data = {

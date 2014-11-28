@@ -16,11 +16,9 @@ exports.index = function(req, res, next) {
 				};
 				return next(err, req, res);
 			}
-			var species = require('../../constants/species');
-				res.render('game/overview_station', {
-					species: species.name[req.session.role.role_species - 1],
-					place: station
-				});
+			res.render('game/overview_station', {
+				place: station
+			});
 		});
 	} else if(type == 'planet') {
 		var Planets = require('../../proxy').Planets;
@@ -37,9 +35,7 @@ exports.index = function(req, res, next) {
 				};
 				return next(err, req, res);
 			}
-			var species = require('../../constants/species');
 			res.render('game/overview_planet', {
-				species: species.name[req.session.role.role_species - 1],
 				place: planet
 			});
 		});

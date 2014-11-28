@@ -52,12 +52,7 @@ exports.create = function(req, res, next) {
 					role_astrological: 1,
 					resources: {
 						gold: 0,
-						antimatter: 0,
-						titanium: 500,
-						crystal: 500,
-						hydrogen: 100,
-						water: 0,
-						organics: 0
+						antimatter: 0
 					},
 					current_place: species.born_place,
 					building_sequence: 1

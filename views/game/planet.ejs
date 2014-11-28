@@ -117,34 +117,7 @@
           </ul>
         </div>
         <div class="span10">
-          <div class="navbar navbar-inverse">
-            <div class="navbar-inner">
-              <a class="brand" style="padding-top:25px"><%= locals.role.role_name %><small> (<%= species %>)</small></a>
-              <ul class="nav">
-                <li class="divider-vertical" style="height:72px;"></li>
-                <li><a>
-                  <div><img src="/images/resources_titanium.png" /></div>
-                  <div class="text-center"><strong><%= locals.role.resources.titanium %></strong></div>
-                </a></li>
-                <li><a>
-                  <div><img src="/images/resources_crystal.png" /></div>
-                  <div class="text-center"><strong><%= locals.role.resources.crystal %></strong></div>
-                </a></li>
-                <li><a>
-                  <div><img src="/images/resources_hydrogen.png" /></div>
-                  <div class="text-center"><strong><%= locals.role.resources.hydrogen %></strong></div>
-                </a></li>
-                <li><a>
-                  <div><img src="/images/resources_water.png" /></div>
-                  <div class="text-center"><strong><%= locals.role.resources.water %></strong></div>
-                </a></li>
-                <li><a>
-                  <div><img src="/images/resources_organics.png" /></div>
-                  <div class="text-center"><strong><%= locals.role.resources.organics %></strong></div>
-                </a></li>
-              </ul>
-            </div>
-          </div>
+          <%- include ./resource_panel %>
           <div class="row-fluid">
             <div class="thumbnail planets" style="background:url(/images/planet/image/<%= planet.id %>_land.png) no-repeat;">
               <div class="planets-name"></div>

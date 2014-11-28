@@ -39,7 +39,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
-    res.locals.time = new Date().getTime();
+    res.locals.planet = req.session.planet;
     next();
 });
 
