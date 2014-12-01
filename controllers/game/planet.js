@@ -29,15 +29,20 @@ exports.index = function(req, res, next) {
 			};
 			return next(err, req, res);
 		}
-		req.session.planet = planet;
-		var buildings = require('../../constants/buildings');
+		Planet.rebuildPlanetProduction(planet, function(err) {
+			if(err) {
+				return next(err, req, res);
+			}
+			req.session.planet = planet;
+			var buildings = require('../../constants/buildings');
 
-		var time = parseInt(new Date().getTime() / 1000);
-		res.render('game/planet', {
-			time: time,
-			buildings: buildings,
-			planet: planet,
-			can_construct: can_construct(planet, req.session.role.building_sequence)
+			var time = parseInt(new Date().getTime() / 1000);
+			res.render('game/planet', {
+				time: time,
+				buildings: buildings,
+				planet: planet,
+				can_construct: can_construct(planet, req.session.role.building_sequence)
+			});
 		});
 	})
 };

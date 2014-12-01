@@ -4,6 +4,7 @@ var Planet = modules.Planets;
 var ConstPosition1 = modules.ConstPosition1;
 var ConstPosition2 = modules.ConstPosition2;
 var ConstPosition3 = modules.ConstPosition3;
+var BuildingProxy = require('./buildings');
 
 /**
  * 根据ID获取星球信息
@@ -70,3 +71,58 @@ exports.getPlanetsByOwner = function(owner, callback) {
         return callback(null, planets);
     });
 };
+
+/**
+ * 重建星球资源产量信息
+ * @param planet
+ * @param callback
+ */
+exports.rebuildPlanetProduction = function(planet, callback) {
+	var rate = {
+		titanium: 0,		//钛合金
+		crystal: 0,			//晶体
+		hydrogen: 0,		//氚氢气
+		water: 0,			//水
+		organics: 0			//有机物
+	};
+	var EventProxy = require('eventproxy');
+	var ep = new EventProxy();
+	ep.after('get_building', planet.buildings.length, function(results) {
+        planet.production_rate.titanium = rate.titanium;
+        planet.production_rate.crystal = rate.crystal;
+        planet.production_rate.hydrogen = rate.hydrogen;
+        planet.production_rate.water = rate.water;
+        planet.production_rate.organics = rate.organics;
+        planet.save();
+		callback(null);
+	});
+	for(var i = 0; i < planet.buildings.length; ++i) {
+		var building = planet.buildings[i];
+		if(building) {
+
+            var slice = [building.level - 1, 1];
+            BuildingProxy.getBuildingById(building.id, {
+                'levels': {
+                    '$slice': slice
+                }
+            }, function (err, b) {
+                if (err) {
+                    callback(err);
+                }
+                if (b) {
+                    rate.titanium += b.levels[0].production.titanium;
+                    rate.crystal += b.levels[0].production.crystal;
+                    rate.hydrogen += b.levels[0].production.hydrogen;
+                    rate.water += b.levels[0].production.water;
+                    rate.organics += b.levels[0].production.organics;
+                    ep.emit('get_building', b);
+                } else {
+                    console.log('警告 rebuild_planet_resource_rate 无法获取建筑信息');
+                    ep.emit('get_building', null);
+                }
+            });
+        } else {
+            ep.emit('get_building', null);
+        }
+	}
+}

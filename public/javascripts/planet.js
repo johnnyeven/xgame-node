@@ -1,5 +1,7 @@
 $(function() {
 	var onBuildingInfo = function(data) {
+		$("#btn_upgrade").removeAttr('disabled');
+		$("#btn_upgrade").removeClass('disabled');
 		$("#btn_upgrade").show();
 		$("#building_info_message").hide();
 		$("#building_info_time").hide();
@@ -96,6 +98,8 @@ $(function() {
 
 	var onBuildingUpgrade = function(data) {
 		if(data && data.code == 200) {
+			$("#btn_upgrade").removeAttr('disabled');
+			$("#btn_upgrade").removeClass('disabled');
 			$("#btn_upgrade").hide();
 			showAlert('success', '操作成功');
 

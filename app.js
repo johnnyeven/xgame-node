@@ -1,13 +1,14 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+//var logger = require('morgan');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var config = require('./config');
+var log4js = require('log4js');
+var config = require('./config/config');
 
 var app = express();
 
@@ -21,7 +22,25 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+//app.use(logger('dev'));
+log4js.configure({
+    appenders: [
+        { type: 'console' },
+        {
+            type: 'file',
+            filename: 'logs/access.log',
+            maxLogSize: 512000000,
+            backups:0,
+            category: 'normal'
+        }
+    ],
+    replaceConsole: true
+});
+var log4js_logger = log4js.getLogger('normal');
+app.use(log4js.connectLogger(log4js_logger, {
+    level: log4js.levels.DEBUG
+}));
+
 app.use(compression({
     threshold: 512
 }));

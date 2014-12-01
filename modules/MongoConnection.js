@@ -1,5 +1,5 @@
 module.exports = function(callback) {
-	var config = require('../config');
+	var config = require('../config/config');
 	var mongoose = require('mongoose');
 	mongoose.connect('mongodb://' + config.game_db.ip + '/' + config.game_db.database);
 	var db = mongoose.connection;
