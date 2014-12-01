@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var config = require('../config/config');
+var config = require('../config');
 
 mongoose.connect('mongodb://' + config.game_db.ip + '/' + config.game_db.database, function(err) {
     if(err) {

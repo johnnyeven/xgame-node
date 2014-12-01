@@ -8,13 +8,15 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var log4js = require('log4js');
-var config = require('./config/config');
 
 var app = express();
 
 // enviroment
 // app.set('env', 'production');
 app.set('env', 'development');
+
+module.exports = app;
+var config = require('./config');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -95,4 +97,3 @@ if (app.get('env') === 'development') {
 }
 
 require('./modules');
-module.exports = app;

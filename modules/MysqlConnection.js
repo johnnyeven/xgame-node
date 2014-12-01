@@ -1,4 +1,4 @@
-var config = require('../config/config');
+var config = require('../config');
 var Sequelize = require('sequelize'),
 sequelize = new Sequelize(config.account_db.database, config.account_db.user, config.account_db.password, {
 	dialect: 'mysql',
