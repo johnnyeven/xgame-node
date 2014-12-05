@@ -5,6 +5,8 @@ var ConstPosition1 = modules.ConstPosition1;
 var ConstPosition2 = modules.ConstPosition2;
 var ConstPosition3 = modules.ConstPosition3;
 var BuildingProxy = require('./buildings');
+var log4js = require('log4js');
+var logger = log4js.getLogger('debug');
 
 /**
  * 根据ID获取星球信息
@@ -85,6 +87,7 @@ exports.rebuildPlanetProduction = function(planet, callback) {
 		water: 0,			//水
 		organics: 0			//有机物
 	};
+    var time = parseInt(new Date().getTime() / 1000);
 	var EventProxy = require('eventproxy');
 	var ep = new EventProxy();
 	ep.after('get_building', planet.buildings.length, function(results) {
@@ -93,23 +96,106 @@ exports.rebuildPlanetProduction = function(planet, callback) {
         planet.production_rate.hydrogen = rate.hydrogen;
         planet.production_rate.water = rate.water;
         planet.production_rate.organics = rate.organics;
+        planet.last_updated = time;
         planet.save();
 		callback(null);
 	});
+    var add_resources = function(planet, building, percentage, index) {
+        var titanium = building.levels[index].production.titanium * percentage;
+        if(planet.production.titanium >= titanium) {
+            planet.production.titanium -= titanium;
+            planet.resources.titanium += titanium;
+        } else {
+            planet.resources.titanium += planet.production.titanium;
+            planet.production.titanium = 0;
+        }
+        var crystal = building.levels[index].production.crystal * percentage;
+        if(planet.production.crystal >= crystal) {
+            planet.production.crystal -= crystal;
+            planet.resources.crystal += crystal;
+        } else {
+            planet.resources.crystal += planet.production.crystal;
+            planet.production.crystal = 0;
+        }
+        var hydrogen = building.levels[index].production.hydrogen * percentage;
+        if(planet.production.hydrogen >= hydrogen) {
+            planet.production.hydrogen -= hydrogen;
+            planet.resources.hydrogen += hydrogen;
+        } else {
+            planet.resources.hydrogen += planet.production.hydrogen;
+            planet.production.hydrogen = 0;
+        }
+        var water = building.levels[index].production.water * percentage;
+        if(planet.production.water >= water) {
+            planet.production.water -= water;
+            planet.resources.water += water;
+        } else {
+            planet.resources.water += planet.production.water;
+            planet.production.water = 0;
+        }
+        var organics = building.levels[index].production.organics * percentage;
+        if(planet.production.organics >= organics) {
+            planet.production.organics -= organics;
+            planet.resources.organics += organics;
+        } else {
+            planet.resources.organics += planet.production.organics;
+            planet.production.organics = 0;
+        }
+        return planet;
+    };
 	for(var i = 0; i < planet.buildings.length; ++i) {
 		var building = planet.buildings[i];
 		if(building) {
-
             var slice = [building.level - 1, 1];
+            if(building.level > 1) {
+                slice[0] = building.level - 2;
+                slice[1] = 2;
+            }
             BuildingProxy.getBuildingById(building.id, {
                 'levels': {
                     '$slice': slice
                 }
-            }, function (err, b) {
+            }, building, function (err, b, building) {
                 if (err) {
                     callback(err);
                 }
                 if (b) {
+                    //更新资源数量
+                    var percentage = 0;
+                    var index = 0;
+                    if(building.complete_time > time) {
+                        //未建成
+                        if(building.level > 1) {
+                            percentage = (time - planet.last_updated) / 3600;
+                            index = 0;
+                            planet = add_resources(planet, b, percentage, index);
+                        }
+                    } else {
+                        //已建成
+                        if(building.complete_time > planet.last_updated) {
+                            if(building.level > 1) {
+                                percentage = (building.complete_time - planet.last_updated) / 3600;
+                                index = 0;
+                                planet = add_resources(planet, b, percentage, index);
+                                percentage = (time - building.complete_time) / 3600;
+                                index = 1;
+                            } else {
+                                percentage = (time - building.complete_time) / 3600;
+                                index = 0;
+                            }
+                            planet = add_resources(planet, b, percentage, index);
+                        } else {
+                            percentage = (time - planet.last_updated) / 3600;
+                            if(building.level > 1) {
+                                index = 1;
+                            } else {
+                                index = 0;
+                            }
+                            planet = add_resources(planet, b, percentage, index);
+                        }
+                    }
+
+                    //更新产量
                     rate.titanium += b.levels[0].production.titanium;
                     rate.crystal += b.levels[0].production.crystal;
                     rate.hydrogen += b.levels[0].production.hydrogen;
@@ -117,7 +203,7 @@ exports.rebuildPlanetProduction = function(planet, callback) {
                     rate.organics += b.levels[0].production.organics;
                     ep.emit('get_building', b);
                 } else {
-                    console.log('警告 rebuild_planet_resource_rate 无法获取建筑信息');
+                    logger.error('警告 rebuild_planet_resource_rate 无法获取建筑信息');
                     ep.emit('get_building', null);
                 }
             });

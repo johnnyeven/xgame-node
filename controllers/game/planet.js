@@ -85,7 +85,7 @@ exports.get_building_on_planet = function(req, res, next) {
 				'levels': {
 					'$slice': slice
 				}
-			}, function(err, building) {
+			}, function(err, building, data) {
 				if(err) {
 					var data = {
 						code: 500,

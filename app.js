@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-//var logger = require('morgan');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -33,14 +32,20 @@ log4js.configure({
             filename: 'logs/access.log',
             maxLogSize: 512000000,
             backups:0,
-            category: 'normal'
+            category: 'access'
+        },
+        {
+            type: 'file',
+            filename: 'logs/debug.log',
+            maxLogSize: 512000000,
+            backups:0,
+            category: 'debug'
         }
-    ],
-    replaceConsole: true
+    ]
 });
-var log4js_logger = log4js.getLogger('normal');
-app.use(log4js.connectLogger(log4js_logger, {
-    level: log4js.levels.DEBUG
+var logger = log4js.getLogger('access');
+app.use(log4js.connectLogger(logger, {
+    level: log4js.levels.INFO
 }));
 
 app.use(compression({
