@@ -183,9 +183,34 @@
               <% for(var i = 0; i < buildings.functions.length; i++) { %>
               <li>
                 <% if(planet.buildings_limit.functions.indexOf(buildings.functions[i]) >= 0) { %>
-                <a href="#<%= buildings.functions[i] %>" class="thumbnail"><div class="resource_building <%= buildings.functions[i] %>"></div></a>
+                <% var b = locals.find_buildings_by_id(buildings.functions[i], planet.buildings); %>
+                <a href="#<%= buildings.functions[i] %>" class="thumbnail"><div class="function_building <%= buildings.functions[i] %> <% if(((b && b.complete_time < time) || !b) && !can_construct) { %>function_denied<% } %>">
+                    <% if(b && b.complete_time > time) { %>
+                    <% var remain_time = b.complete_time - time; %>
+                    <div class="function_building_construction">
+                      <%
+                        var total = b.complete_time - b.start_time;
+                        var percent = parseInt((remain_time / total) * 100);
+                      %>
+                      <div class="function_building_upgrade_mask" style="width:<%= percent %>%"></div>
+                      <div class="function_building_upgrade_time text-center"><strong><%= locals.format_count_down(remain_time) %></strong></div>
+                      <input class="start_time" type="hidden" value="<%= b.start_time %>" />
+                      <input class="end_time" type="hidden" value="<%= b.complete_time %>" />
+                      <input class="remain_time" type="hidden" value="<%= remain_time %>" />
+                    </div>
+                    <% } %>
+                    <div class="function_building_info text-right">
+                      <h6>
+                        <% if(b) { %>
+                        <%= b.level %>
+                        <% } else { %>
+                        0
+                        <% } %>
+                      </h6>
+                    </div>
+                  </div></a>
                 <% } else { %>
-                <a class="thumbnail"><div class="resource_building resource_disabled <%= buildings.functions[i] %>"></div></a>
+                <a class="thumbnail"><div class="function_building function_disabled <%= buildings.resources[i] %>"></div></a>
                 <% } %>
               </li>
               <% } %>

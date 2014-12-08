@@ -75,3 +75,39 @@
 .building_info_comment {
 	height:180px;
 }
+
+.function_building {
+	width:80px;
+	height:80px;
+	background:url(../images/planet/function_building.png) no-repeat;
+	position:relative;
+	overflow:hidden;
+}
+
+.function_building_info {
+	width:80px;
+	height:80px;
+	position:absolute;
+	background:url(../images/planet/building_info_panel_s.gif);
+}
+
+.function_building_info h6 {
+	margin:62px 5px;
+	color:#ffc600;
+}
+
+.function_denied {
+	background-position-y: -80px;
+}
+
+.function_disabled {
+	background-position-y: -160px;
+}
+
+.building_2001 {
+	background-position-x: 0;
+}
+
+.building_2002 {
+	background-position-x: -80px;
+}

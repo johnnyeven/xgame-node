@@ -7,5 +7,8 @@ module.exports = {
 		'building_1005',
 		'building_1006'
 	],
-	functions: []
+	functions: [
+		'building_2001',
+		'building_2002'
+	]
 };
