@@ -5,6 +5,7 @@ var router = express.Router();
 var overview = require('../controllers/game/overview');
 var planet = require('../controllers/game/planet');
 var planets = require('../controllers/game/planets');
+var industry = require('../controllers/game/industry');
 
 //routes
 router.all('/game/*', checkLogin);
@@ -12,6 +13,7 @@ router.all('/game/*', checkRole);
 router.get('/game/overview', overview.index);
 router.get('/game/planets', planets.index);
 router.get('/game/planet/:planet_id', planet.index);
+router.get('/game/industry', industry.index);
 //Ajax
 router.post('/game/planet/:planet_id/build', planet.build_building_on_planet);
 router.post('/game/planet/:planet_id/:building_id', planet.get_building_on_planet);

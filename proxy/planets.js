@@ -145,7 +145,8 @@ exports.rebuildPlanetProduction = function(planet, callback) {
     };
 	for(var i = 0; i < planet.buildings.length; ++i) {
 		var building = planet.buildings[i];
-		if(building) {
+        var id = parseInt(building.id.match(/\d+/)[0])
+		if(building && id < 2000) {
             var slice = [building.level - 1, 1];
             if(building.level > 1) {
                 slice[0] = building.level - 2;

@@ -9,54 +9,70 @@ $(function() {
 			var building = data.data.building;
 			$("#building_info_content > div > div.building_info_attr > h3").text(building.name);
 			$("#building_info_content > div > div.building_info_comment > p").text(building.comment);
+			var next_level;
+			var id = parseInt(building.id.match(/\d+/)[0]);
 			if(building.levels.length > 1) {
 				var current_level = building.levels[0];
-				var next_level = building.levels[1];
+				next_level = building.levels[1];
+				if(id < 2000) {
+					$("#building_info_attr_product tr.production_titanium > td")
+						.text(current_level.production.titanium);
+					$("#building_info_attr_product tr.production_crystal > td")
+						.text(current_level.production.crystal);
+					$("#building_info_attr_product tr.production_hydrogen > td")
+						.text(current_level.production.hydrogen);
+					$("#building_info_attr_product tr.production_water > td")
+						.text(current_level.production.water);
+					$("#building_info_attr_product tr.production_organics > td")
+						.text(current_level.production.organics);
 
-				$("#building_info_attr_product tr.production_titanium > td")
-					.text(current_level.production.titanium);
-				$("#building_info_attr_product tr.production_crystal > td")
-					.text(current_level.production.crystal);
-				$("#building_info_attr_product tr.production_hydrogen > td")
-					.text(current_level.production.hydrogen);
-				$("#building_info_attr_product tr.production_water > td")
-					.text(current_level.production.water);
-				$("#building_info_attr_product tr.production_organics > td")
-					.text(current_level.production.organics);
-
-				$("#building_info_attr_product_next tr.production_titanium_next > td")
-					.text(next_level.production.titanium);
-				$("#building_info_attr_product_next tr.production_crystal_next > td")
-					.text(next_level.production.crystal);
-				$("#building_info_attr_product_next tr.production_hydrogen_next > td")
-					.text(next_level.production.hydrogen);
-				$("#building_info_attr_product_next tr.production_water_next > td")
-					.text(next_level.production.water);
-				$("#building_info_attr_product_next tr.production_organics_next > td")
-					.text(next_level.production.organics);
+					$("#building_info_attr_product_next tr.production_titanium_next > td")
+						.text(next_level.production.titanium);
+					$("#building_info_attr_product_next tr.production_crystal_next > td")
+						.text(next_level.production.crystal);
+					$("#building_info_attr_product_next tr.production_hydrogen_next > td")
+						.text(next_level.production.hydrogen);
+					$("#building_info_attr_product_next tr.production_water_next > td")
+						.text(next_level.production.water);
+					$("#building_info_attr_product_next tr.production_organics_next > td")
+						.text(next_level.production.organics);
+				}
 			} else {
-				var next_level = building.levels[0];
-
-				$("#building_info_attr_product_next tr.production_titanium_next > td")
-					.text(next_level.production.titanium);
-				$("#building_info_attr_product_next tr.production_crystal_next > td")
-					.text(next_level.production.crystal);
-				$("#building_info_attr_product_next tr.production_hydrogen_next > td")
-					.text(next_level.production.hydrogen);
-				$("#building_info_attr_product_next tr.production_water_next > td")
-					.text(next_level.production.water);
-				$("#building_info_attr_product_next tr.production_organics_next > td")
-					.text(next_level.production.organics);
+				next_level = building.levels[0];
+				if(id < 2000) {
+					$("#building_info_attr_product_next tr.production_titanium_next > td")
+						.text(next_level.production.titanium);
+					$("#building_info_attr_product_next tr.production_crystal_next > td")
+						.text(next_level.production.crystal);
+					$("#building_info_attr_product_next tr.production_hydrogen_next > td")
+						.text(next_level.production.hydrogen);
+					$("#building_info_attr_product_next tr.production_water_next > td")
+						.text(next_level.production.water);
+					$("#building_info_attr_product_next tr.production_organics_next > td")
+						.text(next_level.production.organics);
+				}
 			}
 
-			$("#building_info_attr_product tr, #building_info_attr_product_next tr").each(function(i) {
-				var amount = parseInt($(this).find('td').text());
-				if(!amount) {
-					$(this).hide();
-				} else {
-					$(this).show();
-				}
-			});
+			$("#building_info_content div.require").empty();
+			if(next_level.requires.titanium) $("#building_info_content div.require").append('<img src="/images/resources_titanium.png" /> x' + next_level.requires.titanium);
+			if(next_level.requires.crystal) $("#building_info_content div.require").append('<img src="/images/resources_crystal.png" /> x' + next_level.requires.crystal);
+			if(next_level.requires.hydrogen) $("#building_info_content div.require").append('<img src="/images/resources_hydrogen.png" /> x' + next_level.requires.hydrogen);
+			if(next_level.requires.water) $("#building_info_content div.require").append('<img src="/images/resources_water.png" /> x' + next_level.requires.water);
+			if(next_level.requires.organics) $("#building_info_content div.require").append('<img src="/images/resources_organics.png" /> x' + next_level.requires.organics);
+
+			if(id < 2000) {
+				$("#building_info_attr_product tr, #building_info_attr_product_next tr").each(function(i) {
+					var amount = parseInt($(this).find('td').text());
+					if(!amount) {
+						$(this).hide();
+					} else {
+						$(this).show();
+					}
+				});
+				$("#building_info_production").show();
+			} else {
+				$("#building_info_production").hide();
+			}
 
 			$("#building_info_progress").hide();
 			$("#building_info_content").show();
@@ -143,7 +159,7 @@ $(function() {
 
 	$("#building_info").dialog({
 		width: 700,
-		height:450,
+		height:480,
 		resizable: false,
 		autoOpen: false,
 		modal: true,
